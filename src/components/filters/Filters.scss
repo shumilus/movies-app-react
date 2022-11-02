@@ -1,0 +1,61 @@
+@import '../../styles/variables';
+
+.filters {
+  background: $darkColor;
+  width: 100%;
+
+  &-list {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+  }
+}
+
+.filter-elem {
+  position: relative;
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  text-transform: uppercase;
+  color: $lightColor;
+  padding: 20px 15px 20px;
+  margin: 0 2px;
+  cursor: pointer;
+}
+
+.filter-elem-line {
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background: none;
+}
+
+.selected.filter-elem-line {
+  background: $secondaryColor;
+}
+
+.filter-elem:hover .filter-elem-line {
+  background: $secondaryColor;
+}
+
+.filter-line {
+  height: 1px;
+  left: 115px;
+  top: 522px;
+  border: 1px solid #080707;
+}
+
+.light-line {
+  height: 2px;
+  background: #424242;
+}
+
+.dark-line {
+  height: 1px;
+  margin-top: 1px;
+  background: #080707;
+}

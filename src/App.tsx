@@ -3,9 +3,9 @@ import React from 'react';
 import './App.scss';
 
 import Header from './containers/header/Header';
-import Home from './containers/Home';
 import Footer from './components/Footer';
 import Logo from './components/Logo';
+import Main from './containers/Main';
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
         <Header/>
       </header>
       <main>
-        <Home/>
+        <Main/>
       </main>
       <footer>
         <Footer>
