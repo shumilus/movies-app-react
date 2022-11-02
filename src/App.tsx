@@ -1,8 +1,11 @@
 import React from 'react';
+
 import './App.scss';
-import Header from './containers/Header';
+
+import Header from './containers/header/Header';
 import Home from './containers/Home';
 import Footer from './components/Footer';
+import Logo from './components/Logo';
 
 function App() {
   return (
@@ -15,7 +18,7 @@ function App() {
       </main>
       <footer>
         <Footer>
-          <span>Footer</span>
+          <Logo/>
         </Footer>
       </footer>
     </div>
