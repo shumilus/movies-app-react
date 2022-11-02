@@ -1,0 +1,16 @@
+@import '../../styles/variables';
+
+.header {
+  min-height: 396px;
+  background: $darkColor center / cover no-repeat url('../../assets/images/header-bacground.png');
+  padding-top: 20px;
+  box-sizing: border-box;
+
+  .title-container {
+    margin: 35px 0 0 100px;
+  }
+
+  .search-container {
+    margin: 40px 100px 0;
+  }
+}

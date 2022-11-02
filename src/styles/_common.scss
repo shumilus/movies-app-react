@@ -1,0 +1,13 @@
+@import '../styles/variables';
+
+.light-color {
+  color: $lightColor;
+}
+
+.secondary-color {
+  color: $secondaryColor;
+}
+
+.dark-background {
+  background: $darkColor;
+}
