@@ -1,11 +1,18 @@
-import MovieCard from './Movie-card';
+import MovieCard from './movie-card/Movie-card';
+import { Movie } from '../shared/models/Movie.interface';
 
-function MoviesList() {
+interface MoviesListProps {
+  movies: Movie[],
+}
+
+function MoviesList({ movies }: MoviesListProps) {
   return (
-    <div className='d-flex space-between'>
-      <MovieCard/>
-      <MovieCard/>
-      <MovieCard/>
+    <div className='d-flex space-between flex-wrap'>
+      {
+        movies.map((movie: Movie) => (
+          <MovieCard movie={movie} key={movie.id}/>
+        ))
+      }
     </div>
   );
 }
