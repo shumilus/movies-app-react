@@ -1,8 +1,9 @@
-import Filters from '../components/filters/Filters';
-import Sorting from '../components/sorting/Sorting';
-import MoviesResultsLabel from '../components/Movies-results-label';
 import { createUseStyles } from 'react-jss';
-import MoviesList from '../components/Movies-list';
+
+import Filters from './Filters/Filters';
+import Sorting from './Sorting/Sorting';
+import MoviesResultsLabel from './MoviesResultsLabel';
+import MoviesListContainer from '../containers/MoviesListContainer';
 
 const useStyles = createUseStyles({
   filtersContainer: {
@@ -24,16 +25,16 @@ function Home() {
 
   return (
     <>
-      <section className={ classes.filtersContainer }>
+      <section className={classes.filtersContainer}>
         <Filters/>
-        <div className={ classes.sortingContainer }>
+        <div className={classes.sortingContainer}>
           <Sorting/>
         </div>
       </section>
-      <div className={ classes.moviesResultsContainer }>
-        <MoviesResultsLabel/>
+      <div className={classes.moviesResultsContainer}>
+        <MoviesResultsLabel result='39'/>
       </div>
-      <MoviesList/>
+      <MoviesListContainer/>
     </>
   );
 }

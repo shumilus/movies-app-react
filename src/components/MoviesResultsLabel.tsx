@@ -1,5 +1,9 @@
 import { createUseStyles } from 'react-jss';
 
+interface MoviesResultsLabelProps {
+  result: string;
+}
+
 const useStyles = createUseStyles({
   label: {
     fontWeight: '400',
@@ -11,11 +15,12 @@ const useStyles = createUseStyles({
   },
 });
 
-function MoviesResultsLabel() {
+function MoviesResultsLabel({ result }: MoviesResultsLabelProps) {
   const classes = useStyles();
   return (
     <div className={`${classes.label} light-color`}>
-    <span className={classes.result}>39</span> <span>movies found</span></div>
+      <span className={classes.result}>{result}</span> <span>movies found</span>
+    </div>
   );
 }
 

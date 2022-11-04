@@ -1,8 +1,8 @@
 import './Header.scss';
-import Logo from '../../components/Logo';
-import AddMovieButton from '../../components/Add-movie-button';
-import MainTitle from '../../components/Main-title';
-import Search from '../../components/Search';
+import Logo from '../Logo';
+import AddMovieButton from '../AddMovieButton';
+import MainTitle from '../MainTitle';
+import Search from '../Search';
 
 function Header() {
   return (
@@ -10,10 +10,10 @@ function Header() {
       <div className='app-wrapper'>
         <div className='d-flex space-between align-center'>
           <Logo/>
-          <AddMovieButton/>
+          <AddMovieButton title='+ add movie'/>
         </div>
         <div className='title-container'>
-          <MainTitle/>
+          <MainTitle text='find your movie'/>
         </div>
         <div className='search-container'>
           <Search/>
