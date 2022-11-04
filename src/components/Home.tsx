@@ -3,9 +3,7 @@ import { createUseStyles } from 'react-jss';
 import Filters from './Filters/Filters';
 import Sorting from './Sorting/Sorting';
 import MoviesResultsLabel from './MoviesResultsLabel';
-import MoviesList from './MoviesList';
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
-import { movies } from '../mocks/movies';
+import MoviesListContainer from '../containers/MoviesListContainer';
 
 const useStyles = createUseStyles({
   filtersContainer: {
@@ -36,9 +34,7 @@ function Home() {
       <div className={classes.moviesResultsContainer}>
         <MoviesResultsLabel result='39'/>
       </div>
-      <ErrorBoundary componentName='MoviesList'>
-        <MoviesList movies={movies}/>
-      </ErrorBoundary>
+      <MoviesListContainer/>
     </>
   );
 }
