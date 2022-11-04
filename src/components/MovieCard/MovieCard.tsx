@@ -1,5 +1,6 @@
 import { Movie } from '../../shared/models/Movie.interface';
-import './Movie-card.scss';
+import './MovieCard.scss';
+import PropTypes from 'prop-types';
 
 interface MovieCardProps {
   movie: Movie;
@@ -23,3 +24,17 @@ function MovieCard({ movie }: MovieCardProps) {
 }
 
 export default MovieCard;
+
+MovieCard.propTypes = {
+  title: PropTypes.string.isRequired,
+  year: PropTypes.string.isRequired,
+  genre: PropTypes.string.isRequired,
+  imgUrl: PropTypes.string.isRequired,
+};
+
+MovieCard.defaultProps = {
+  title: 'Movie name',
+  year: 'Movie year',
+  genre: 'Movie genre',
+  imgUrl: '1',
+};

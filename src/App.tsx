@@ -2,10 +2,10 @@ import React from 'react';
 
 import './App.scss';
 
-import Header from './containers/header/Header';
+import Header from './components/Header/Header';
 import Footer from './components/Footer';
 import Logo from './components/Logo';
-import Main from './containers/Main';
+import Main from './components/Main';
 
 function App() {
   return (

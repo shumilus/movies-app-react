@@ -1,5 +1,9 @@
 import { createUseStyles } from 'react-jss';
 
+interface MainTitleProps {
+  text: string;
+}
+
 const useStyles = createUseStyles({
   title: {
     fontWeight: '300',
@@ -10,10 +14,10 @@ const useStyles = createUseStyles({
   },
 });
 
-function MainTitle() {
-  const classes = `${ useStyles().title } light-color`;
+function MainTitle({ text }: MainTitleProps) {
+  const classes = `${useStyles().title} light-color`;
 
-  return ( <h2 className={ classes }>find your movie</h2> );
+  return (<h2 className={classes}>{text}</h2>);
 }
 
 export default MainTitle;

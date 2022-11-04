@@ -1,10 +1,10 @@
 import { createUseStyles } from 'react-jss';
 
-import Filters from '../components/filters/Filters';
-import Sorting from '../components/sorting/Sorting';
-import MoviesResultsLabel from '../components/Movies-results-label';
-import MoviesList from '../components/Movies-list';
-import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
+import Filters from './Filters/Filters';
+import Sorting from './Sorting/Sorting';
+import MoviesResultsLabel from './MoviesResultsLabel';
+import MoviesList from './MoviesList';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 import { movies } from '../mocks/movies';
 
 const useStyles = createUseStyles({
@@ -34,7 +34,7 @@ function Home() {
         </div>
       </section>
       <div className={classes.moviesResultsContainer}>
-        <MoviesResultsLabel/>
+        <MoviesResultsLabel result='39'/>
       </div>
       <ErrorBoundary componentName='MoviesList'>
         <MoviesList movies={movies}/>

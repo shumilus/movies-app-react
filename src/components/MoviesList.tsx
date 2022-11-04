@@ -1,4 +1,4 @@
-import MovieCard from './movie-card/Movie-card';
+import MovieCard from './MovieCard/MovieCard';
 import { Movie } from '../shared/models/Movie.interface';
 
 interface MoviesListProps {

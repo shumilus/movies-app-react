@@ -1,5 +1,9 @@
 import { createUseStyles } from 'react-jss';
 
+interface AddMovieButtonProps {
+  title: string;
+}
+
 const useStyles = createUseStyles({
   button: {
     borderRadius: '4px',
@@ -14,11 +18,11 @@ const useStyles = createUseStyles({
   },
 });
 
-function AddMovieButton() {
-  const classes = `${ useStyles().button } transparent-button`;
+function AddMovieButton({ title }: AddMovieButtonProps) {
+  const classes = `${useStyles().button} transparent-button`;
 
   return (
-    <button type='button' className={ classes }>+ add movie</button>
+    <button type='button' className={classes}>{title}</button>
   );
 }
 

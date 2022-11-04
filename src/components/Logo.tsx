@@ -1,5 +1,4 @@
 import { createUseStyles } from 'react-jss';
-import logo from '../assets/icons/logo.svg';
 
 const useStyles = createUseStyles({
   icon: {
@@ -12,7 +11,7 @@ const useStyles = createUseStyles({
 function Logo() {
   const classes = useStyles();
 
-  return (<img className={classes.icon} src={ logo } alt='logo'/>);
+  return (<img className={classes.icon} src='/icons/logo.svg' alt='logo'/>);
 }
 
 export default Logo;
