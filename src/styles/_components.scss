@@ -1,6 +1,7 @@
 @import '../styles/variables';
 
 .primary-button {
+  min-width: 180px;
   background: $secondaryColor;
   color: $lightColor;
   font-weight: 500;
@@ -22,6 +23,32 @@
   }
 }
 
+.secondary-button {
+  min-width: 180px;
+  background: transparent;
+  color: $secondaryColor;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 4px;
+  padding: 16px 17px;
+  cursor: pointer;
+  border: 1.5px solid $secondaryColor;
+  box-sizing: border-box;
+
+  &:hover {
+    color: $secondaryColorHover;
+    border: 1.5px solid $secondaryColorHover;
+  }
+
+  &:active {
+    color: $secondaryColor;
+    border: 1.5px solid $secondaryColor;
+  }
+}
+
 .transparent-button {
   color: $secondaryColor;
   background: rgba(96, 96, 96, 0.68);
@@ -35,4 +62,35 @@
     color: $secondaryColor;
     background: rgba(96, 96, 96, 0.68);
   }
+}
+
+.close-button {
+  position: absolute;
+  right: 30px;
+  top: 30px;
+  width: 32px;
+  height: 32px;
+  opacity: 0.3;
+}
+.close-button:hover {
+  opacity: 1;
+}
+.close-button:before, .close-button:after {
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: 33px;
+  width: 2px;
+  background-color: $lightColor;
+}
+.close-button:before {
+  transform: rotate(45deg);
+}
+.close-button:after {
+  transform: rotate(-45deg);
+}
+
+.MuiPaper-root {
+  background: $darkColor !important;
+  max-width: 970px !important;
 }

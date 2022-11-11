@@ -2,6 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 interface AddMovieButtonProps {
   title: string;
+  handleClickAdd: () => void;
 }
 
 const useStyles = createUseStyles({
@@ -18,11 +19,11 @@ const useStyles = createUseStyles({
   },
 });
 
-function AddMovieButton({ title }: AddMovieButtonProps) {
+function AddMovieButton({ title, handleClickAdd }: AddMovieButtonProps) {
   const classes = `${useStyles().button} transparent-button`;
 
   return (
-    <button type='button' className={classes}>{title}</button>
+    <button type='button' className={classes} onClick={handleClickAdd}>{title}</button>
   );
 }
 

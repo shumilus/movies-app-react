@@ -1,8 +1,8 @@
 import './Header.scss';
 import Logo from '../Logo';
-import AddMovieButton from '../AddMovieButton';
 import MainTitle from '../MainTitle';
 import Search from '../Search';
+import AddMovie from '../AddMovie/AddMovie';
 
 function Header() {
   return (
@@ -10,7 +10,7 @@ function Header() {
       <div className='app-wrapper'>
         <div className='d-flex space-between align-center'>
           <Logo/>
-          <AddMovieButton title='+ add movie'/>
+          <AddMovie></AddMovie>
         </div>
         <div className='title-container'>
           <MainTitle text='find your movie'/>
