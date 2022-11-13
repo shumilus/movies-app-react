@@ -51,7 +51,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
     console.log(7);
   };
 
-  const src = `/images/movies/movie-${movie.imgUrl}.png`;
+  const src = `/images/movies/movie-${movie.url}.png`;
 
   return (
     <div className='movie-card'>
@@ -60,7 +60,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
 
       <div className='d-flex align-center space-between'>
         <p className='movie-card-title'>{movie.title}</p>
-        <p className='movie-card-year'>{movie.year}</p>
+        <p className='movie-card-year'>{movie.releaseDate}</p>
       </div>
 
       <p className='movie-card-genre'>{movie.genre}</p>

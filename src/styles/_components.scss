@@ -94,3 +94,31 @@
   background: $darkColor !important;
   max-width: 970px !important;
 }
+
+.MuiSelect-select {
+  font-size: 16px !important;
+  line-height: 20px !important;
+  letter-spacing: 0.888889px !important;
+  text-transform: uppercase !important;
+  color: $lightColor !important;
+  font-weight: 500 !important;
+  padding-top: 13px !important;
+  padding-bottom: 10px !important;
+}
+
+.MuiInputBase-root {
+  width: 170px !important;
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border: none !important;
+}
+
+.MuiList-root {
+  background: $lightColor !important;
+}
+
+.MuiOutlinedInput-root {
+  width: 100% !important;
+  color: $lightColor !important;
+}

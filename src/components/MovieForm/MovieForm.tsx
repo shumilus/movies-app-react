@@ -4,6 +4,7 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '../Button';
 import './MovieForm.scss';
 import { Movie } from '../../shared/models/Movie.interface';
+import Datepicker from '../datepicker';
 
 export interface MovieFormProps {
   title: string
@@ -28,36 +29,38 @@ export default function MovieForm(props: MovieFormProps) {
         <div className='d-flex'>
           <div className='movie-form-input-container'>
             <label className='movie-form-input-label' htmlFor="title">title</label>
-            <input className='movie-form-input' type="text"/>
+            <input className='movie-form-input' type="text" defaultValue={props.movie?.title}/>
           </div>
 
           <div className='movie-form-input-container modal-input-container-small'>
             <label className='movie-form-input-label' htmlFor="title">release date</label>
-            <input className='movie-form-input' type="text"/>
+            <div className='movie-form-input movie-form-date-input'>
+              <Datepicker/>
+            </div>
           </div>
         </div>
 
         <div className='d-flex'>
           <div className='movie-form-input-container'>
             <label className='movie-form-input-label' htmlFor="title">movie url</label>
-            <input className='movie-form-input' type="text"/>
+            <input className='movie-form-input' type="text" defaultValue={props.movie?.url}/>
           </div>
 
           <div className='movie-form-input-container modal-input-container-small'>
             <label className='movie-form-input-label' htmlFor="title">rating</label>
-            <input className='movie-form-input' type="text"/>
+            <input className='movie-form-input' type="text" defaultValue={props.movie?.rating}/>
           </div>
         </div>
 
         <div className='d-flex'>
           <div className='movie-form-input-container'>
             <label className='movie-form-input-label' htmlFor="title">genre</label>
-            <input className='movie-form-input' type="text"/>
+            <input className='movie-form-input' type="text" defaultValue={props.movie?.genre}/>
           </div>
 
           <div className='movie-form-input-container modal-input-container-small'>
             <label className='movie-form-input-label' htmlFor="title">runtime</label>
-            <input className='movie-form-input' type="text"/>
+            <input className='movie-form-input' type="text" defaultValue={props.movie?.runtime}/>
           </div>
         </div>
 
@@ -67,7 +70,8 @@ export default function MovieForm(props: MovieFormProps) {
                     name="overview"
                     id="overview"
                     cols={textarea.cols}
-                    rows={textarea.rows}></textarea>
+                    rows={textarea.rows}
+                    defaultValue={props.movie?.overview}></textarea>
         </div>
       </div>
       <div className='movie-form-buttons-container'>
