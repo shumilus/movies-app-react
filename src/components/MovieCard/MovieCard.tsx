@@ -6,6 +6,7 @@ import MovieCardMenu from '../MovieCardMenu/MovieCardMenu';
 import DeleteMovie from '../DeleteMovie';
 import { Movie } from '../../shared/models/Movie.interface';
 import './MovieCard.scss';
+import EditMovie from '../EditMovie';
 
 interface MovieCardProps {
   movie: Movie;
@@ -13,8 +14,10 @@ interface MovieCardProps {
 
 export default function MovieCard({ movie }: MovieCardProps) {
   const [isDeleteMovieModalOpen, setIsDeleteMovieModalOpen] = useState(false);
+  const [isEditMovieOpen, setIsEditMovieOpen] = useState(false);
 
   const handleEditClick = () => {
+    setIsEditMovieOpen(true);
     console.log(1);
   };
 
@@ -36,6 +39,16 @@ export default function MovieCard({ movie }: MovieCardProps) {
   const handleConfirmDeleteMovieModalClick = () => {
     setIsDeleteMovieModalOpen(false);
     console.log(5);
+  };
+
+  const handleEditMovieCloseClick = () => {
+    setIsEditMovieOpen(false);
+    console.log(6);
+  };
+
+  const handleEditMovieSubmitClick = () => {
+    setIsEditMovieOpen(false);
+    console.log(7);
   };
 
   const src = `/images/movies/movie-${movie.imgUrl}.png`;
@@ -62,6 +75,11 @@ export default function MovieCard({ movie }: MovieCardProps) {
       <DeleteMovie isOpen={isDeleteMovieModalOpen}
                    outsideClick={handleOutsideDeleteMovieModalClick}
                    confirmClick={handleConfirmDeleteMovieModalClick}/>
+
+      <EditMovie movie={movie}
+                 isOpen={isEditMovieOpen}
+                 closeClick={handleEditMovieCloseClick}
+                 submitClick={handleEditMovieSubmitClick}/>
     </div>
   );
 }

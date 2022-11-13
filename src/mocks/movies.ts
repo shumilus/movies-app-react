@@ -1,6 +1,6 @@
 import { Movie } from '../shared/models/Movie.interface';
 
-export const movies: Movie[] = [
+export const moviesMock: Movie[] = [
   {
     id: 'assasas',
     title: 'Pulp Fiction',
