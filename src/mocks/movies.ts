@@ -2,7 +2,7 @@ import { Movie } from '../shared/models/Movie.interface';
 
 export const moviesMock: Movie[] = [
   {
-    id: 'assasas',
+    id: '1111',
     title: 'Pulp Fiction',
     releaseDate: '2004',
     url: '1',
@@ -12,7 +12,7 @@ export const moviesMock: Movie[] = [
     overview: 'dfs dsfsdfs sdfsf adf',
   },
   {
-    id: 'dfgdgdgd',
+    id: '2222',
     title: 'Bohemian Rhapsody',
     releaseDate: '2003',
     url: '2',
@@ -22,7 +22,7 @@ export const moviesMock: Movie[] = [
     overview: 'dfs dsfsdfs sdfsf adf',
   },
   {
-    id: 'qwqwqwqwqw',
+    id: '3333',
     title: 'Kill Bill: Vol 2',
     releaseDate: '1994',
     url: '3',
@@ -32,7 +32,7 @@ export const moviesMock: Movie[] = [
     overview: 'dfs dsfsdfs sdfsf adf',
   },
   {
-    id: 'kljkljlj',
+    id: '4444',
     title: 'Avengers: War of Infinity',
     releaseDate: '2005',
     url: '4',

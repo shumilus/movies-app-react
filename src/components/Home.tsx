@@ -3,8 +3,11 @@ import { createUseStyles } from 'react-jss';
 import Filters from './Filters/Filters';
 import Sorting from './Sorting/Sorting';
 import MoviesResultsLabel from './MoviesResultsLabel';
-import MoviesListContainer from '../containers/MoviesListContainer';
 import { useState } from 'react';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+import MoviesList from './MoviesList';
+import { Movie } from '../shared/models/Movie.interface';
+import { useRequestMovies } from '../hooks/useRequestMovies';
 
 const useStyles = createUseStyles({
   filtersContainer: {
@@ -21,13 +24,44 @@ const useStyles = createUseStyles({
   },
 });
 
-function Home() {
-  const [ sortBy, setSortBy ] = useState<string>('releaseDate');
+function compare(a: Movie, b: Movie, key: string) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  if (a[key] < b[key]) {
+    return -1;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  if (a[key] > b[key]) {
+    return 1;
+  }
+  return 0;
+}
+
+function sortMovies(movies: Movie[], sorting: string) {
+  return movies.sort((a: Movie, b: Movie) => compare(a, b, sorting));
+}
+
+export default function Home() {
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [sortBy, setSortBy] = useState<string>('releaseDate');
   const classes = useStyles();
 
-  const handleSortingChange = (sort: string) => {
-    setSortBy(sort);
+  const setMoviesList = (movieList: Movie[]) => {
+    const sortedList = sortMovies(movieList, sortBy);
+    setMovies(sortedList);
   };
+
+  const handleSortingChange = (sort: string) => {
+    console.log(sort);
+    console.log(sortBy);
+    setSortBy(sort);
+    console.log(sortBy);
+    setMoviesList(movies);
+  };
+
+  useRequestMovies(setMoviesList, []);
 
   return (
     <>
@@ -40,9 +74,9 @@ function Home() {
       <div className={classes.moviesResultsContainer}>
         <MoviesResultsLabel result='39'/>
       </div>
-      <MoviesListContainer sorting={sortBy}/>
+      <ErrorBoundary componentName="MoviesListContainer">
+        <MoviesList movies={movies}></MoviesList>
+      </ErrorBoundary>
     </>
   );
 }
-
-export default Home;
