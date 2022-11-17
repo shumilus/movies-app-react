@@ -34,18 +34,14 @@ export default function Home() {
     setMovies(sortMovies(list, sortBy));
   };
 
+  const handleSortingChange = (sort: string) => {
+    setSortBy(sort);
+  };
+
   useRequestMovies(setMoviesList, []);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => setMoviesList([...movies]), [sortBy]);
-
-
-  const handleSortingChange = (sort: string) => {
-    console.log(sort);
-    console.log(sortBy);
-    setSortBy(sort);
-    console.log(sortBy);
-  };
 
   return (
     <>
