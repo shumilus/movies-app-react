@@ -1,13 +1,14 @@
 import { createUseStyles } from 'react-jss';
+import { useEffect, useState } from 'react';
 
 import Filters from './Filters/Filters';
 import Sorting from './Sorting/Sorting';
 import MoviesResultsLabel from './MoviesResultsLabel';
-import { useState } from 'react';
 import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 import MoviesList from './MoviesList';
 import { Movie } from '../shared/models/Movie.interface';
 import { useRequestMovies } from '../hooks/useRequestMovies';
+import { sortMovies } from '../shared/helpers/movies.helper';
 
 const useStyles = createUseStyles({
   filtersContainer: {
@@ -24,44 +25,27 @@ const useStyles = createUseStyles({
   },
 });
 
-function compare(a: Movie, b: Movie, key: string) {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  if (a[key] < b[key]) {
-    return -1;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  if (a[key] > b[key]) {
-    return 1;
-  }
-  return 0;
-}
-
-function sortMovies(movies: Movie[], sorting: string) {
-  return movies.sort((a: Movie, b: Movie) => compare(a, b, sorting));
-}
-
 export default function Home() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [sortBy, setSortBy] = useState<string>('releaseDate');
   const classes = useStyles();
 
-  const setMoviesList = (movieList: Movie[]) => {
-    const sortedList = sortMovies(movieList, sortBy);
-    setMovies(sortedList);
+  const setMoviesList = (list: Movie[]) => {
+    setMovies(sortMovies(list, sortBy));
   };
+
+  useRequestMovies(setMoviesList, []);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => setMoviesList([...movies]), [sortBy]);
+
 
   const handleSortingChange = (sort: string) => {
     console.log(sort);
     console.log(sortBy);
     setSortBy(sort);
     console.log(sortBy);
-    setMoviesList(movies);
   };
-
-  useRequestMovies(setMoviesList, []);
 
   return (
     <>
