@@ -1,7 +1,7 @@
 import { Movie } from '../models/Movie.interface';
 
 function compare(a: string, b: string) {
-  if (a == b) {
+  if (a === b) {
     return 0;
   }
   return a < b ? 1 : -1;

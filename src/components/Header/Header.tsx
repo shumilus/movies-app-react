@@ -6,8 +6,15 @@ import AddMovie from '../AddMovie';
 import AddMovieButton from '../AddMovieButton';
 import * as React from 'react';
 import { useState } from 'react';
+import { Movie } from '../../shared/models/Movie.interface';
+import MovieDetails from '../MovieDetails/MovieDetails';
 
-function Header() {
+interface HeaderProps {
+  movie: Movie,
+  returnToSearchClick: () => void,
+}
+
+export default function Header({ movie, returnToSearchClick }: HeaderProps) {
   const [isAddMovieOpen, setIsAddMovieOpen] = useState(false);
 
   const handleAddMovieClickOpen = () => {
@@ -24,18 +31,21 @@ function Header() {
 
   return (
     <div className='header'>
-      <div className='app-wrapper'>
-        <div className='d-flex space-between align-center'>
-          <Logo/>
-          <AddMovieButton title='+ add movie' handleClickAdd={handleAddMovieClickOpen}/>
+      {movie?.title
+        ? <MovieDetails movie={movie} returnToSearchClick={returnToSearchClick}/>
+        : <div className='app-wrapper'>
+          <div className='d-flex space-between'>
+            <Logo/>
+            <AddMovieButton title='+ add movie' handleClickAdd={handleAddMovieClickOpen}/>
+          </div>
+          <div className='title-container'>
+            <MainTitle text='find your movie'/>
+          </div>
+          <div className='search-container'>
+            <Search/>
+          </div>
         </div>
-        <div className='title-container'>
-          <MainTitle text='find your movie'/>
-        </div>
-        <div className='search-container'>
-          <Search/>
-        </div>
-      </div>
+      }
 
       <AddMovie isOpen={isAddMovieOpen}
                 closeClick={handleAddMovieCloseClick}
@@ -43,5 +53,3 @@ function Header() {
     </div>
   );
 }
-
-export default Header;

@@ -1,0 +1,77 @@
+@import '../../styles/variables';
+
+.movie-details {
+  background: $darkColor;
+  padding-bottom: 30px;
+
+  &-image {
+    margin-top: 30px;
+  }
+
+  &-content {
+    margin: 20px 0 0 50px;
+  }
+
+  &-title {
+    font-style: normal;
+    font-weight: 300;
+    font-size: 40px;
+    line-height: 49px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: $lightColor;
+    margin: 0 25px 0 0;
+  }
+
+  &-rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border: 1px solid $lightColor;
+    border-radius: 50%;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    text-transform: uppercase;
+    color: $lightColor;
+  }
+
+  &-genre {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: $lightColor;
+    mix-blend-mode: normal;
+    opacity: 0.5;
+    font-style: normal;
+    margin-bottom: 30px;
+  }
+
+  &-year {
+    margin-right: 50px;
+  }
+
+  &-year, &-runtime {
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 29px;
+  }
+
+  &-description {
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 24px;
+    color: $lightColor;
+    mix-blend-mode: normal;
+    opacity: 0.5;
+    margin-top: 30px;
+  }
+}
+
+.red-color {
+  color: $secondaryColor;
+}

@@ -42,7 +42,7 @@ export default function DeleteMovie(props: MovieCardMenuProps) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <a href="#" className="close-button" onClick={props.outsideClick}></a>
+        <button className="close-button" onClick={props.outsideClick}></button>
 
         <div className={classes.content}>
           <h2 className={classes.title}>delete movie</h2>

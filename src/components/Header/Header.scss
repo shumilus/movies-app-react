@@ -3,8 +3,11 @@
 .header {
   min-height: 396px;
   background: $darkColor center / cover no-repeat url('../../../public/images/header-bacground.png');
-  padding-top: 20px;
   box-sizing: border-box;
+
+  .app-wrapper {
+    padding-top: 20px;
+  }
 
   .title-container {
     margin: 35px 0 0 100px;

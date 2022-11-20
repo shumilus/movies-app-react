@@ -1,6 +1,7 @@
 import { createUseStyles } from 'react-jss';
 
 import Home from './Home';
+import { Movie } from '../shared/models/Movie.interface';
 
 const useStyles = createUseStyles({
   mainContainer: {
@@ -9,16 +10,14 @@ const useStyles = createUseStyles({
   },
 });
 
-function Main() {
+export default function Main( { movieClick }: any) {
   const classes = useStyles();
 
   return (
     <div className={ `${ classes.mainContainer } dark-background` }>
       <div className='app-wrapper'>
-        <Home/>
+        <Home movieClick={(movie: Movie) => movieClick(movie)}/>
       </div>
     </div>
   );
 }
-
-export default Main;

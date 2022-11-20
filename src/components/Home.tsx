@@ -25,7 +25,7 @@ const useStyles = createUseStyles({
   },
 });
 
-export default function Home() {
+export default function Home({ movieClick }: any) {
   const classes = useStyles();
   const { isLoading, data } = useFetchHttp([]);
   const [movies, setMovies] = useState<Movie[]>(data);
@@ -62,7 +62,9 @@ export default function Home() {
         <MoviesResultsLabel result='39'/>
       </div>
       <ErrorBoundary componentName="MoviesList">
-        {isLoading ? <div>Loading...</div> : <MoviesList movies={movies}></MoviesList>}
+        {isLoading
+          ? <div>Loading...</div>
+          : <MoviesList movies={movies} movieClick={(movie) => movieClick(movie)}></MoviesList>}
       </ErrorBoundary>
     </>
   );
