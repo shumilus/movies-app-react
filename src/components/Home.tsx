@@ -7,7 +7,7 @@ import MoviesResultsLabel from './MoviesResultsLabel';
 import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 import MoviesList from './MoviesList';
 import { Movie } from '../shared/models/Movie.interface';
-import { useRequestMovies } from '../hooks/useRequestMovies';
+import { useFetchHttp } from '../hooks/useFetchHttp';
 import { sortMovies } from '../shared/helpers/movies.helper';
 
 const useStyles = createUseStyles({
@@ -26,9 +26,10 @@ const useStyles = createUseStyles({
 });
 
 export default function Home() {
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [sortBy, setSortBy] = useState<string>('releaseDate');
   const classes = useStyles();
+  const { isLoading, data } = useFetchHttp([]);
+  const [movies, setMovies] = useState<Movie[]>(data);
+  const [sortBy, setSortBy] = useState<string>('releaseDate');
 
   const setMoviesList = (list: Movie[]) => {
     setMovies(sortMovies(list, sortBy));
@@ -38,10 +39,16 @@ export default function Home() {
     setSortBy(sort);
   };
 
-  useRequestMovies(setMoviesList, []);
+  useEffect(() => {
+    setMoviesList(data);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => setMoviesList([...movies]), [sortBy]);
+
+  useEffect(() => {
+    setMoviesList([...movies]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortBy]);
 
   return (
     <>
@@ -54,8 +61,8 @@ export default function Home() {
       <div className={classes.moviesResultsContainer}>
         <MoviesResultsLabel result='39'/>
       </div>
-      <ErrorBoundary componentName="MoviesListContainer">
-        <MoviesList movies={movies}></MoviesList>
+      <ErrorBoundary componentName="MoviesList">
+        {isLoading ? <div>Loading...</div> : <MoviesList movies={movies}></MoviesList>}
       </ErrorBoundary>
     </>
   );
