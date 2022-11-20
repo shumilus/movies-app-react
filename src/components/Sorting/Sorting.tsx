@@ -1,15 +1,36 @@
 import './Sorting.scss';
+import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
 
-function Sorting() {
+export interface SortingProps {
+  sortingChange: (sorting: string) => void;
+  sort: string;
+}
+
+export default function Sorting({ sortingChange, sort }: SortingProps) {
+  const handleChange = (event: SelectChangeEvent) => {
+    return sortingChange(event.target.value);
+  };
+
   return (
     <div className='sorting'>
       <label htmlFor='sorting-dropdown' className='sorting-text sorting-label'>sort by</label>
-      <div className='d-flex align-center'>
-        <div id='sorting-dropdown' className='sorting-text sorting-dropdown'>release date</div>
-        <img src='/icons/arrow-down.svg' alt="arrow-down"/>
+
+      <div className='sorting-dropdown'>
+        <Select
+          className='sorting-text '
+          value={sort}
+          onChange={handleChange}
+          displayEmpty
+          inputProps={{ 'aria-label': 'Without label', 'classes' : 'sorting-text sorting-dropdown' }}
+        >
+          <MenuItem className='test' value={'title'}>Title</MenuItem>
+          <MenuItem value={'releaseDate'}>Release date</MenuItem>
+          <MenuItem value={'rating'}>Rating</MenuItem>
+          <MenuItem value={'genre'}>Genre</MenuItem>
+          <MenuItem value={'runtime'}>Runtime</MenuItem>
+          <MenuItem value={'overview'}>Overview</MenuItem>
+        </Select>
       </div>
     </div>
   );
 }
-
-export default Sorting;
