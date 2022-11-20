@@ -6,7 +6,7 @@ interface MoviesListProps {
   movieClick: (movie: Movie) => void,
 }
 
-function MoviesList({ movies, movieClick }: MoviesListProps) {
+export default function MoviesList({ movies, movieClick }: MoviesListProps) {
   return (
     <div className='d-flex space-between flex-wrap'>
       {
@@ -17,5 +17,3 @@ function MoviesList({ movies, movieClick }: MoviesListProps) {
     </div>
   );
 }
-
-export default MoviesList;

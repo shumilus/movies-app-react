@@ -13,7 +13,7 @@ interface MovieCardProps {
   movieClick: () => void,
 }
 
-export default function MovieCard({ movie, movieClick }: MovieCardProps) {
+function MovieCard({ movie, movieClick }: MovieCardProps) {
   const [isDeleteMovieModalOpen, setIsDeleteMovieModalOpen] = useState(false);
   const [isEditMovieOpen, setIsEditMovieOpen] = useState(false);
 
@@ -23,7 +23,6 @@ export default function MovieCard({ movie, movieClick }: MovieCardProps) {
 
   const handleDeleteClick = () => {
     setIsDeleteMovieModalOpen(true);
-    console.log(isDeleteMovieModalOpen);
   };
 
   const handleCloseClick = () => {
@@ -76,6 +75,10 @@ export default function MovieCard({ movie, movieClick }: MovieCardProps) {
     </div>
   );
 }
+
+export default React.memo(MovieCard, (prevProps, nextProps) => {
+  return prevProps.movie.id === nextProps.movie.id;
+});
 
 MovieCard.propTypes = {
   title: PropTypes.string.isRequired,
