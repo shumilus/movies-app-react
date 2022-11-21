@@ -7,21 +7,23 @@ import Footer from './components/Footer';
 import Logo from './components/Logo';
 import Main from './components/Main';
 import { Movie } from './shared/models/Movie.interface';
+import { MovieContextProvider } from './contexts/Movie.context';
 
 function App() {
-  const [openedMovie, setOpenedMovie] = useState<Movie>({} as Movie);
+  const [selectedMovie, setSelectedMovie] = useState<Movie>({} as Movie);
 
   const handleReturnToSearchClick = () => {
-    setOpenedMovie({} as Movie);
+    setSelectedMovie({} as Movie);
   };
 
   return (
+    <MovieContextProvider selectedMovie={selectedMovie}>
     <div className="App">
       <header>
-        <Header movie={openedMovie} returnToSearchClick={handleReturnToSearchClick}/>
+        <Header returnToSearchClick={handleReturnToSearchClick}/>
       </header>
       <main>
-        <Main movieClick={(movie: Movie) => setOpenedMovie(movie)}/>
+        <Main movieClick={(movie: Movie) => setSelectedMovie(movie)}/>
       </main>
       <footer>
         <Footer>
@@ -29,6 +31,7 @@ function App() {
         </Footer>
       </footer>
     </div>
+    </MovieContextProvider>
   );
 }
 

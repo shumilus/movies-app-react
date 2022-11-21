@@ -76,9 +76,10 @@ function MovieCard({ movie, movieClick }: MovieCardProps) {
   );
 }
 
-export default React.memo(MovieCard, (prevProps, nextProps) => {
-  return prevProps.movie.id === nextProps.movie.id;
-});
+export default React.memo(MovieCard, (
+  prevProps: Readonly<MovieCardProps>,
+  nextProps: Readonly<MovieCardProps>,
+) => prevProps.movie.id === nextProps.movie.id);
 
 MovieCard.propTypes = {
   title: PropTypes.string.isRequired,

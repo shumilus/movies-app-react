@@ -6,16 +6,17 @@ import AddMovie from '../AddMovie';
 import AddMovieButton from '../AddMovieButton';
 import * as React from 'react';
 import { useState } from 'react';
-import { Movie } from '../../shared/models/Movie.interface';
 import MovieDetails from '../MovieDetails/MovieDetails';
+import { useMovieContext } from '../../contexts/Movie.context';
+import { Movie } from '../../shared/models/Movie.interface';
 
 interface HeaderProps {
-  movie: Movie,
   returnToSearchClick: () => void,
 }
 
-export default function Header({ movie, returnToSearchClick }: HeaderProps) {
+export default function Header({ returnToSearchClick }: HeaderProps) {
   const [isAddMovieOpen, setIsAddMovieOpen] = useState(false);
+  const movie = useMovieContext() || {} as Movie;
 
   const handleAddMovieClickOpen = () => {
     setIsAddMovieOpen(true);

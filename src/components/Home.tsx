@@ -1,5 +1,5 @@
 import { createUseStyles } from 'react-jss';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import Filters from './Filters/Filters';
 import Sorting from './Sorting/Sorting';
@@ -35,9 +35,14 @@ export default function Home({ movieClick }: any) {
     setMovies(sortMovies(list, sortBy));
   };
 
-  const handleSortingChange = (sort: string) => {
+  // const handleSortingChange = (sort: string) => {
+  //   setSortBy(sort);
+  // };
+
+  const handleSortingChange = useCallback((sort: string) => {
     setSortBy(sort);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortBy]);
 
   useEffect(() => {
     setMoviesList(data);
