@@ -10,21 +10,19 @@ import EditMovie from '../EditMovie';
 
 interface MovieCardProps {
   movie: Movie;
+  movieClick: () => void,
 }
 
-export default function MovieCard({ movie }: MovieCardProps) {
+function MovieCard({ movie, movieClick }: MovieCardProps) {
   const [isDeleteMovieModalOpen, setIsDeleteMovieModalOpen] = useState(false);
   const [isEditMovieOpen, setIsEditMovieOpen] = useState(false);
 
   const handleEditClick = () => {
     setIsEditMovieOpen(true);
-    console.log(1);
   };
 
   const handleDeleteClick = () => {
     setIsDeleteMovieModalOpen(true);
-    console.log(isDeleteMovieModalOpen);
-    console.log(2);
   };
 
   const handleCloseClick = () => {
@@ -33,30 +31,24 @@ export default function MovieCard({ movie }: MovieCardProps) {
 
   const handleOutsideDeleteMovieModalClick = () => {
     setIsDeleteMovieModalOpen(false);
-    console.log(4);
   };
 
   const handleConfirmDeleteMovieModalClick = () => {
     setIsDeleteMovieModalOpen(false);
-    console.log(5);
   };
 
   const handleEditMovieCloseClick = () => {
     setIsEditMovieOpen(false);
-    console.log(6);
   };
 
   const handleEditMovieSubmitClick = () => {
     setIsEditMovieOpen(false);
-    console.log(7);
   };
-
-  const src = `/images/movies/movie-${movie.url}.png`;
 
   return (
     <div className='movie-card'>
       <img className='movie-card-image'
-           src={src} alt="movie-image"/>
+           src={movie.url} alt="movie" onClick={movieClick}/>
 
       <div className='d-flex align-center space-between'>
         <p className='movie-card-title'>{movie.title}</p>
@@ -83,6 +75,11 @@ export default function MovieCard({ movie }: MovieCardProps) {
     </div>
   );
 }
+
+export default React.memo(MovieCard, (
+  prevProps: Readonly<MovieCardProps>,
+  nextProps: Readonly<MovieCardProps>,
+) => prevProps.movie.id === nextProps.movie.id);
 
 MovieCard.propTypes = {
   title: PropTypes.string.isRequired,

@@ -90,6 +90,13 @@
   transform: rotate(-45deg);
 }
 
+.clear-button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
 .MuiPaper-root {
   background: $darkColor !important;
   max-width: 970px !important;

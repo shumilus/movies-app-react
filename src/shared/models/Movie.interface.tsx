@@ -7,4 +7,5 @@ export interface Movie {
   genre: string;
   runtime: string;
   overview: string;
+  description: string;
 }

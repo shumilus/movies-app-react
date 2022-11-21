@@ -35,7 +35,7 @@ export const useFetchHttp = (dependencies: any[]): FetchHttp => {
       setTimeout(() => {
         setIsLoading(false);
         setData(moviesMock);
-      }, 2000);
+      }, 1000);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, dependencies);

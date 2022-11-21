@@ -1,5 +1,5 @@
 import { createUseStyles } from 'react-jss';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import Filters from './Filters/Filters';
 import Sorting from './Sorting/Sorting';
@@ -25,7 +25,7 @@ const useStyles = createUseStyles({
   },
 });
 
-export default function Home() {
+export default function Home({ movieClick }: any) {
   const classes = useStyles();
   const { isLoading, data } = useFetchHttp([]);
   const [movies, setMovies] = useState<Movie[]>(data);
@@ -35,9 +35,14 @@ export default function Home() {
     setMovies(sortMovies(list, sortBy));
   };
 
-  const handleSortingChange = (sort: string) => {
+  // const handleSortingChange = (sort: string) => {
+  //   setSortBy(sort);
+  // };
+
+  const handleSortingChange = useCallback((sort: string) => {
     setSortBy(sort);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortBy]);
 
   useEffect(() => {
     setMoviesList(data);
@@ -62,7 +67,9 @@ export default function Home() {
         <MoviesResultsLabel result='39'/>
       </div>
       <ErrorBoundary componentName="MoviesList">
-        {isLoading ? <div>Loading...</div> : <MoviesList movies={movies}></MoviesList>}
+        {isLoading
+          ? <div>Loading...</div>
+          : <MoviesList movies={movies} movieClick={(movie) => movieClick(movie)}></MoviesList>}
       </ErrorBoundary>
     </>
   );
