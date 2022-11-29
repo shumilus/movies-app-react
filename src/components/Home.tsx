@@ -1,5 +1,5 @@
 import { createUseStyles } from 'react-jss';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import Filters from './Filters/Filters';
 import Sorting from './Sorting/Sorting';
@@ -7,8 +7,10 @@ import MoviesResultsLabel from './MoviesResultsLabel';
 import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 import MoviesList from './MoviesList';
 import { Movie } from '../shared/models/Movie.interface';
-import { useFetchHttp } from '../hooks/useFetchHttp';
-import { sortMovies } from '../shared/helpers/movies.helper';
+import { useAppDispatch, useAppSelector } from '../hooks/hook';
+import { fetchMovies } from '../store/moviesSlice';
+import { setSorting } from '../store/sortingSlice';
+import { setFilter } from '../store/filterSlice';
 
 const useStyles = createUseStyles({
   filtersContainer: {
@@ -27,44 +29,37 @@ const useStyles = createUseStyles({
 
 export default function Home({ movieClick }: any) {
   const classes = useStyles();
-  const { isLoading, data } = useFetchHttp([]);
-  const [movies, setMovies] = useState<Movie[]>(data);
-  const [sortBy, setSortBy] = useState<string>('releaseDate');
+  const dispatch = useAppDispatch();
 
-  const setMoviesList = (list: Movie[]) => {
-    setMovies(sortMovies(list, sortBy));
+  const sort: string = useAppSelector(state => state.sorting.key);
+  const filter: string = useAppSelector(state => state.filter.key);
+  const isLoading: boolean = useAppSelector(state => state.movies.isLoading);
+  const movies: Movie[] = useAppSelector(state => state.movies.list);
+  const totalAmount: number = useAppSelector(state => state.movies.totalAmount);
+
+  const handleSortingChange = (key: string) => {
+    dispatch(setSorting(key));
   };
 
-  // const handleSortingChange = (sort: string) => {
-  //   setSortBy(sort);
-  // };
-
-  const handleSortingChange = useCallback((sort: string) => {
-    setSortBy(sort);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortBy]);
+  const handleFilterChange = (key: string) => {
+    dispatch(setFilter(key));
+  };
 
   useEffect(() => {
-    setMoviesList(data);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
-
-
-  useEffect(() => {
-    setMoviesList([...movies]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortBy]);
+    dispatch(fetchMovies({ sort, filter }));
+  }, [dispatch, sort, filter]);
 
   return (
     <>
       <section className={classes.filtersContainer}>
-        <Filters/>
+        <Filters filter={filter} handleFilterChange={handleFilterChange}/>
+
         <div className={classes.sortingContainer}>
-          <Sorting sortingChange={handleSortingChange} sort={sortBy}/>
+          <Sorting sortingChange={handleSortingChange} sort={sort}/>
         </div>
       </section>
       <div className={classes.moviesResultsContainer}>
-        <MoviesResultsLabel result='39'/>
+        <MoviesResultsLabel result={totalAmount}/>
       </div>
       <ErrorBoundary componentName="MoviesList">
         {isLoading

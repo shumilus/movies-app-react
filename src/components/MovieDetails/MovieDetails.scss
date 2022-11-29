@@ -3,9 +3,12 @@
 .movie-details {
   background: $darkColor;
   padding-bottom: 30px;
+  min-height: 396px;
 
   &-image {
     margin-top: 30px;
+    width: 325px;
+    height: 490px;
   }
 
   &-content {

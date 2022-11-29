@@ -1,12 +1,13 @@
 import MovieCard from './MovieCard/MovieCard';
 import { Movie } from '../shared/models/Movie.interface';
+import React from 'react';
 
 interface MoviesListProps {
   movies: Movie[],
   movieClick: (movie: Movie) => void,
 }
 
-export default function MoviesList({ movies, movieClick }: MoviesListProps) {
+const MoviesList: React.FC<MoviesListProps> = ({ movies, movieClick }: MoviesListProps) => {
   return (
     <div className='d-flex space-between flex-wrap'>
       {
@@ -16,4 +17,6 @@ export default function MoviesList({ movies, movieClick }: MoviesListProps) {
       }
     </div>
   );
-}
+};
+
+export default MoviesList;
