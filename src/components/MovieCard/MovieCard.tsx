@@ -11,10 +11,10 @@ import { setMoviesGenres } from '../../shared/utils/movie.utils';
 
 interface MovieCardProps {
   movie: Movie;
-  movieClick: () => void,
+  onMovieClick: () => void,
 }
 
-function MovieCard({ movie, movieClick }: MovieCardProps) {
+function MovieCard({ movie, onMovieClick }: MovieCardProps) {
   const [isDeleteMovieModalOpen, setIsDeleteMovieModalOpen] = useState(false);
   const [isEditMovieOpen, setIsEditMovieOpen] = useState(false);
 
@@ -51,7 +51,7 @@ function MovieCard({ movie, movieClick }: MovieCardProps) {
       <img className='movie-card-image'
            src={movie.poster_path}
            alt="movie"
-           onClick={movieClick}
+           onClick={onMovieClick}
            onError={({ currentTarget }) => {
              currentTarget.onerror = null;
              currentTarget.src = '/images/default-poster.webp';

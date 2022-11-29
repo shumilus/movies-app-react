@@ -1,6 +1,9 @@
 import { MovieRequestParams } from '../../store/moviesSlice';
 
-export const setMoviesGenres = (genres: string[]): string[] => {
+export const setMoviesGenres = (genres: string[] | undefined): string[] => {
+  if (!genres) {
+    return [];
+  }
   return genres.map((i: string, index: number) => `${i}${index === genres.length - 1 ? '' : ', '}`);
 };
 

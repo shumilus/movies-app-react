@@ -8,7 +8,7 @@ import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 import MoviesList from './MoviesList';
 import { Movie } from '../shared/models/Movie.interface';
 import { useAppDispatch, useAppSelector } from '../hooks/hook';
-import { fetchMovies } from '../store/moviesSlice';
+import { fetchMovies, setSelectedMovie } from '../store/moviesSlice';
 import { setSorting } from '../store/sortingSlice';
 import { setFilter } from '../store/filterSlice';
 
@@ -27,7 +27,7 @@ const useStyles = createUseStyles({
   },
 });
 
-export default function Home({ movieClick }: any) {
+export default function Home() {
   const classes = useStyles();
   const dispatch = useAppDispatch();
 
@@ -43,6 +43,10 @@ export default function Home({ movieClick }: any) {
 
   const handleFilterChange = (key: string) => {
     dispatch(setFilter(key));
+  };
+
+  const handleMovieClick = (movie: Movie) => {
+    dispatch(setSelectedMovie({ movie, isSelected: true }));
   };
 
   useEffect(() => {
@@ -64,7 +68,7 @@ export default function Home({ movieClick }: any) {
       <ErrorBoundary componentName="MoviesList">
         {isLoading
           ? <div>Loading...</div>
-          : <MoviesList movies={movies} movieClick={(movie) => movieClick(movie)}></MoviesList>}
+          : <MoviesList movies={movies} onMovieClick={handleMovieClick}/>}
       </ErrorBoundary>
     </>
   );

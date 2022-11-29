@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import './App.scss';
 
@@ -6,24 +6,15 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer';
 import Logo from './components/Logo';
 import Main from './components/Main';
-import { Movie } from './shared/models/Movie.interface';
-import { MovieContextProvider } from './contexts/Movie.context';
 
 function App() {
-  const [selectedMovie, setSelectedMovie] = useState<Movie>({} as Movie);
-
-  const handleReturnToSearchClick = () => {
-    setSelectedMovie({} as Movie);
-  };
-
   return (
-    <MovieContextProvider selectedMovie={selectedMovie}>
     <div className="App">
       <header>
-        <Header returnToSearchClick={handleReturnToSearchClick}/>
+        <Header/>
       </header>
       <main>
-        <Main movieClick={(movie: Movie) => setSelectedMovie(movie)}/>
+        <Main/>
       </main>
       <footer>
         <Footer>
@@ -31,7 +22,6 @@ function App() {
         </Footer>
       </footer>
     </div>
-    </MovieContextProvider>
   );
 }
 

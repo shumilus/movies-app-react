@@ -6,7 +6,7 @@ import { Movie } from '../../shared/models/Movie.interface';
 import { setMoviesGenres } from '../../shared/utils/movie.utils';
 
 interface MovieDetailsProps {
-  movie: Movie,
+  movie: Movie | undefined,
   returnToSearchClick: () => void,
 }
 
@@ -23,7 +23,7 @@ export default function MovieDetails({ movie, returnToSearchClick }: MovieDetail
 
         <div className='d-flex'>
           <img className='movie-details-image'
-               src={movie.poster_path}
+               src={movie?.poster_path}
                alt="movie"
                onError={({ currentTarget }) => {
                  currentTarget.onerror = null;
@@ -32,16 +32,16 @@ export default function MovieDetails({ movie, returnToSearchClick }: MovieDetail
 
           <div className='movie-details-content'>
             <div className='d-flex'>
-              <h2 className='movie-details-title'>{movie.title}</h2>
-              <div className='movie-details-rating'>{movie.vote_average}</div>
+              <h2 className='movie-details-title'>{movie?.title}</h2>
+              <div className='movie-details-rating'>{movie?.vote_average}</div>
             </div>
-            <p className='movie-details-genre'>{setMoviesGenres(movie.genres)}</p>
+            <p className='movie-details-genre'>{setMoviesGenres(movie?.genres)}</p>
 
             <div>
-              <span className='movie-details-year red-color'>{movie.release_date.slice(0, 4)}</span>
-              <span className='movie-details-runtime red-color'>{movie.runtime}</span>
+              <span className='movie-details-year red-color'>{movie?.release_date.slice(0, 4)}</span>
+              <span className='movie-details-runtime red-color'>{movie?.runtime}</span>
             </div>
-            <p className='movie-details-description'>{movie.overview}</p>
+            <p className='movie-details-description'>{movie?.overview}</p>
           </div>
         </div>
       </div>

@@ -19,6 +19,8 @@ type MoviesState = {
   totalAmount: number,
   isLoading: boolean,
   error: string,
+  isMovieSelected: boolean,
+  selectedMovie: Movie | undefined,
 };
 
 
@@ -50,14 +52,17 @@ const initialState: MoviesState = {
   totalAmount: 0,
   isLoading: false,
   error: '',
+  isMovieSelected: false,
+  selectedMovie: undefined,
 };
 
 const moviesSlice = createSlice({
   name: 'movies',
   initialState,
   reducers: {
-    getMovies(state, action: PayloadAction<Movie[]>) {
-      state.list = action.payload;
+    setSelectedMovie(state, action: PayloadAction<{ movie: Movie | undefined, isSelected: boolean }>) {
+      state.isMovieSelected = action.payload.isSelected;
+      state.selectedMovie = action.payload.movie;
     },
   },
   extraReducers: {
@@ -74,10 +79,12 @@ const moviesSlice = createSlice({
       state.list = [];
       state.isLoading = false;
       state.error = action.payload;
+      state.isMovieSelected = false;
+      state.selectedMovie = undefined;
     },
   },
 });
 
-export const { getMovies } = moviesSlice.actions;
+export const { setSelectedMovie } = moviesSlice.actions;
 
 export default moviesSlice.reducer;

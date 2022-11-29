@@ -4,15 +4,15 @@ import React from 'react';
 
 interface MoviesListProps {
   movies: Movie[],
-  movieClick: (movie: Movie) => void,
+  onMovieClick: (movie: Movie) => void,
 }
 
-const MoviesList: React.FC<MoviesListProps> = ({ movies, movieClick }: MoviesListProps) => {
+const MoviesList: React.FC<MoviesListProps> = ({ movies, onMovieClick }: MoviesListProps) => {
   return (
     <div className='d-flex space-between flex-wrap'>
       {
         movies.map((movie: Movie) => (
-          <MovieCard movie={movie} key={movie.id} movieClick={() => movieClick(movie)}/>
+          <MovieCard movie={movie} key={movie.id} onMovieClick={() => onMovieClick(movie)}/>
         ))
       }
     </div>
