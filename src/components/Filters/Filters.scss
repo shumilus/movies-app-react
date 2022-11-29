@@ -23,6 +23,14 @@
   padding: 20px 15px 20px;
   margin: 0 2px;
   cursor: pointer;
+
+  &:hover {
+    color: $secondaryColor;
+  }
+
+  &:active {
+    color: $lightColor;
+  }
 }
 
 .filter-elem-line {

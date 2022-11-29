@@ -43,19 +43,19 @@ export default function MovieForm(props: MovieFormProps) {
         <div className='d-flex'>
           <div className='movie-form-input-container'>
             <label className='movie-form-input-label' htmlFor="title">movie url</label>
-            <input className='movie-form-input' type="text" defaultValue={props.movie?.url}/>
+            <input className='movie-form-input' type="text" defaultValue={props.movie?.poster_path}/>
           </div>
 
           <div className='movie-form-input-container modal-input-container-small'>
             <label className='movie-form-input-label' htmlFor="title">rating</label>
-            <input className='movie-form-input' type="text" defaultValue={props.movie?.rating}/>
+            <input className='movie-form-input' type="text" defaultValue={props.movie?.vote_average}/>
           </div>
         </div>
 
         <div className='d-flex'>
           <div className='movie-form-input-container'>
             <label className='movie-form-input-label' htmlFor="title">genre</label>
-            <input className='movie-form-input' type="text" defaultValue={props.movie?.genre}/>
+            <input className='movie-form-input' type="text" defaultValue={props.movie?.genres.join(', ')}/>
           </div>
 
           <div className='movie-form-input-container modal-input-container-small'>

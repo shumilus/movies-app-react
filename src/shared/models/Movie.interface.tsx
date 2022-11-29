@@ -1,11 +1,14 @@
 export interface Movie {
   id: string;
   title: string;
-  releaseDate: string;
-  url: string;
-  rating: number;
-  genre: string;
-  runtime: string;
+  tagline: string;
+  vote_average: number;
+  vote_count: number;
+  release_date: string;
+  poster_path: string;
   overview: string;
-  description: string;
+  budget: number;
+  revenue: number;
+  genres: string[];
+  runtime: number;
 }

@@ -7,16 +7,15 @@ import AddMovieButton from '../AddMovieButton';
 import * as React from 'react';
 import { useState } from 'react';
 import MovieDetails from '../MovieDetails/MovieDetails';
-import { useMovieContext } from '../../contexts/Movie.context';
+import { useAppDispatch, useAppSelector } from '../../hooks/hook';
 import { Movie } from '../../shared/models/Movie.interface';
+import { setSelectedMovie } from '../../store/moviesSlice';
 
-interface HeaderProps {
-  returnToSearchClick: () => void,
-}
-
-export default function Header({ returnToSearchClick }: HeaderProps) {
+export default function Header() {
+  const dispatch = useAppDispatch();
   const [isAddMovieOpen, setIsAddMovieOpen] = useState(false);
-  const movie = useMovieContext() || {} as Movie;
+  const isMovieSelected: boolean = useAppSelector(state => state.movies.isMovieSelected);
+  const movie: Movie | undefined = useAppSelector(state => state.movies.selectedMovie);
 
   const handleAddMovieClickOpen = () => {
     setIsAddMovieOpen(true);
@@ -30,10 +29,14 @@ export default function Header({ returnToSearchClick }: HeaderProps) {
     setIsAddMovieOpen(false);
   };
 
+  const handleReturnToSearchClick = () => {
+    dispatch(setSelectedMovie({ movie: undefined, isSelected: false }));
+  };
+
   return (
     <div className='header'>
-      {movie?.title
-        ? <MovieDetails movie={movie} returnToSearchClick={returnToSearchClick}/>
+      {isMovieSelected
+        ? <MovieDetails movie={movie} returnToSearchClick={handleReturnToSearchClick}/>
         : <div className='app-wrapper'>
           <div className='d-flex space-between'>
             <Logo/>

@@ -1,7 +1,7 @@
 import { createUseStyles } from 'react-jss';
 
 interface MoviesResultsLabelProps {
-  result: string;
+  result: number;
 }
 
 const useStyles = createUseStyles({

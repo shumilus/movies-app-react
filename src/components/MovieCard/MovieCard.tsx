@@ -7,13 +7,14 @@ import DeleteMovie from '../DeleteMovie';
 import { Movie } from '../../shared/models/Movie.interface';
 import './MovieCard.scss';
 import EditMovie from '../EditMovie';
+import { setMoviesGenres } from '../../shared/utils/movie.utils';
 
 interface MovieCardProps {
   movie: Movie;
-  movieClick: () => void,
+  onMovieClick: () => void,
 }
 
-function MovieCard({ movie, movieClick }: MovieCardProps) {
+function MovieCard({ movie, onMovieClick }: MovieCardProps) {
   const [isDeleteMovieModalOpen, setIsDeleteMovieModalOpen] = useState(false);
   const [isEditMovieOpen, setIsEditMovieOpen] = useState(false);
 
@@ -48,14 +49,20 @@ function MovieCard({ movie, movieClick }: MovieCardProps) {
   return (
     <div className='movie-card'>
       <img className='movie-card-image'
-           src={movie.url} alt="movie" onClick={movieClick}/>
+           src={movie.poster_path}
+           alt="movie"
+           onClick={onMovieClick}
+           onError={({ currentTarget }) => {
+             currentTarget.onerror = null;
+             currentTarget.src = '/images/default-poster.webp';
+           }}/>
 
       <div className='d-flex align-center space-between'>
         <p className='movie-card-title'>{movie.title}</p>
-        <p className='movie-card-year'>{movie.releaseDate}</p>
+        <p className='movie-card-year'>{movie.release_date.slice(0, 4)}</p>
       </div>
 
-      <p className='movie-card-genre'>{movie.genre}</p>
+      <p className='movie-card-genre'>{setMoviesGenres(movie.genres)}</p>
 
       <div className='movie-card-menu__wrapper'>
         <MovieCardMenu handleEditClick={handleEditClick}
