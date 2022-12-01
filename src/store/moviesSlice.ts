@@ -19,8 +19,11 @@ type MoviesState = {
   totalAmount: number,
   isLoading: boolean,
   error: string,
-  isMovieSelected: boolean,
   selectedMovie: Movie | undefined,
+  isSelectedMovieOpen: boolean,
+  isAddMovieOpen: boolean,
+  isEditMovieOpen: boolean,
+  isDeleteMovieOpen: boolean,
 };
 
 
@@ -52,17 +55,31 @@ const initialState: MoviesState = {
   totalAmount: 0,
   isLoading: false,
   error: '',
-  isMovieSelected: false,
   selectedMovie: undefined,
+  isSelectedMovieOpen: false,
+  isAddMovieOpen: false,
+  isEditMovieOpen: false,
+  isDeleteMovieOpen: false,
 };
 
 const moviesSlice = createSlice({
   name: 'movies',
   initialState,
   reducers: {
-    setSelectedMovie(state, action: PayloadAction<{ movie: Movie | undefined, isSelected: boolean }>) {
-      state.isMovieSelected = action.payload.isSelected;
+    setSelectedMovie(state, action: PayloadAction<{ movie: Movie | undefined }>) {
       state.selectedMovie = action.payload.movie;
+    },
+    setIsMovieSelected(state, action: PayloadAction<{ isSelected: boolean }>) {
+      state.isSelectedMovieOpen = action.payload.isSelected;
+    },
+    setAddMovieOpen(state, action: PayloadAction<{ isOpen: boolean }>) {
+      state.isAddMovieOpen = action.payload.isOpen;
+    },
+    setEditMovieOpen(state, action: PayloadAction<{ isOpen: boolean }>) {
+      state.isEditMovieOpen = action.payload.isOpen;
+    },
+    setDeleteMovieOpen(state, action: PayloadAction<{ isOpen: boolean }>) {
+      state.isDeleteMovieOpen = action.payload.isOpen;
     },
   },
   extraReducers: {
@@ -79,12 +96,18 @@ const moviesSlice = createSlice({
       state.list = [];
       state.isLoading = false;
       state.error = action.payload;
-      state.isMovieSelected = false;
+      state.isSelectedMovieOpen = false;
       state.selectedMovie = undefined;
     },
   },
 });
 
-export const { setSelectedMovie } = moviesSlice.actions;
+export const {
+  setSelectedMovie,
+  setIsMovieSelected,
+  setAddMovieOpen,
+  setEditMovieOpen,
+  setDeleteMovieOpen,
+} = moviesSlice.actions;
 
 export default moviesSlice.reducer;

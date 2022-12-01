@@ -5,7 +5,7 @@ import MovieForm from './MovieForm/MovieForm';
 import { Movie } from '../shared/models/Movie.interface';
 
 export interface EditMovieProps {
-  movie: Movie;
+  movie: Movie | undefined;
   isOpen: boolean;
   closeClick: () => void;
   submitClick: () => void;

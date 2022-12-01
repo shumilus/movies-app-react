@@ -22,7 +22,7 @@ const textarea = {
 export default function MovieForm(props: MovieFormProps) {
   return (
     <div className='movie-form'>
-      <button className="close-button" onClick={props.closeClick}></button>
+      <button className="close-button clear-button" onClick={props.closeClick}></button>
 
       <h2 className='movie-form-title'>{props.title}</h2>
       <div>

@@ -1,13 +1,12 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 
 import MovieCardMenu from '../MovieCardMenu/MovieCardMenu';
-import DeleteMovie from '../DeleteMovie';
 import { Movie } from '../../shared/models/Movie.interface';
 import './MovieCard.scss';
-import EditMovie from '../EditMovie';
 import { setMoviesGenres } from '../../shared/utils/movie.utils';
+import { useAppDispatch } from '../../hooks/hook';
+import { setDeleteMovieOpen, setEditMovieOpen } from '../../store/moviesSlice';
 
 interface MovieCardProps {
   movie: Movie;
@@ -15,35 +14,18 @@ interface MovieCardProps {
 }
 
 function MovieCard({ movie, onMovieClick }: MovieCardProps) {
-  const [isDeleteMovieModalOpen, setIsDeleteMovieModalOpen] = useState(false);
-  const [isEditMovieOpen, setIsEditMovieOpen] = useState(false);
+  const dispatch = useAppDispatch();
 
   const handleEditClick = () => {
-    setIsEditMovieOpen(true);
+    dispatch(setEditMovieOpen({ isOpen: true }));
   };
 
   const handleDeleteClick = () => {
-    setIsDeleteMovieModalOpen(true);
+    dispatch(setDeleteMovieOpen({ isOpen: true }));
   };
 
   const handleCloseClick = () => {
     console.log(3);
-  };
-
-  const handleOutsideDeleteMovieModalClick = () => {
-    setIsDeleteMovieModalOpen(false);
-  };
-
-  const handleConfirmDeleteMovieModalClick = () => {
-    setIsDeleteMovieModalOpen(false);
-  };
-
-  const handleEditMovieCloseClick = () => {
-    setIsEditMovieOpen(false);
-  };
-
-  const handleEditMovieSubmitClick = () => {
-    setIsEditMovieOpen(false);
   };
 
   return (
@@ -70,15 +52,6 @@ function MovieCard({ movie, onMovieClick }: MovieCardProps) {
                        handleCloseClick={handleCloseClick}/>
 
       </div>
-
-      <DeleteMovie isOpen={isDeleteMovieModalOpen}
-                   outsideClick={handleOutsideDeleteMovieModalClick}
-                   confirmClick={handleConfirmDeleteMovieModalClick}/>
-
-      <EditMovie movie={movie}
-                 isOpen={isEditMovieOpen}
-                 closeClick={handleEditMovieCloseClick}
-                 submitClick={handleEditMovieSubmitClick}/>
     </div>
   );
 }
