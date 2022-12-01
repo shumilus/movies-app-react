@@ -6,7 +6,7 @@ import { Movie } from '../../shared/models/Movie.interface';
 import './MovieCard.scss';
 import { setMoviesGenres } from '../../shared/utils/movie.utils';
 import { useAppDispatch } from '../../hooks/hook';
-import { setDeleteMovieOpen, setEditMovieOpen } from '../../store/moviesSlice';
+import { setDeleteMovieOpen, setEditMovieOpen, setSelectedMovie } from '../../store/moviesSlice';
 
 interface MovieCardProps {
   movie: Movie;
@@ -18,14 +18,11 @@ function MovieCard({ movie, onMovieClick }: MovieCardProps) {
 
   const handleEditClick = () => {
     dispatch(setEditMovieOpen({ isOpen: true }));
+    dispatch(setSelectedMovie({ movie }));
   };
 
   const handleDeleteClick = () => {
     dispatch(setDeleteMovieOpen({ isOpen: true }));
-  };
-
-  const handleCloseClick = () => {
-    console.log(3);
   };
 
   return (
@@ -48,8 +45,7 @@ function MovieCard({ movie, onMovieClick }: MovieCardProps) {
 
       <div className='movie-card-menu__wrapper'>
         <MovieCardMenu handleEditClick={handleEditClick}
-                       handleDeleteClick={handleDeleteClick}
-                       handleCloseClick={handleCloseClick}/>
+                       handleDeleteClick={handleDeleteClick}/>
 
       </div>
     </div>

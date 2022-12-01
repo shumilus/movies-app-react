@@ -5,7 +5,6 @@ import { useState } from 'react';
 interface MovieCardMenuProps {
   handleEditClick: () => void;
   handleDeleteClick: () => void;
-  handleCloseClick: () => void;
 }
 
 export default function MovieCardMenu(props: MovieCardMenuProps) {

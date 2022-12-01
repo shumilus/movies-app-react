@@ -8,7 +8,7 @@ export interface EditMovieProps {
   movie: Movie | undefined;
   isOpen: boolean;
   closeClick: () => void;
-  submitClick: () => void;
+  submitClick: (movie: Movie) => void;
 }
 
 export default function EditMovie(props: EditMovieProps) {
@@ -19,7 +19,7 @@ export default function EditMovie(props: EditMovieProps) {
                    title='edit movie'
                    isOpen={props.isOpen}
                    closeClick={props.closeClick}
-                   submitClick={props.submitClick}/>
+                   submitClick={(movie: Movie) => props.submitClick(movie)}/>
       </Dialog>
     </>
   );

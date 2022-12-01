@@ -6,20 +6,25 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
-export default function Datepicker() {
+export interface DatepickerProps {
+  onDateChange: (date: Dayjs | null) => void;
+}
+
+export default function Datepicker({ onDateChange }: DatepickerProps) {
   const [value, setValue] = React.useState<Dayjs | null>(
-    dayjs('2014-08-18T21:11:54'),
+    dayjs(new Date()),
   );
 
   const handleChange = (newValue: Dayjs | null) => {
     setValue(newValue);
+    onDateChange(value);
   };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Stack spacing={3}>
         <DesktopDatePicker
-          inputFormat="MM/DD/YYYY"
+          inputFormat='MM/DD/YYYY'
           value={value}
           onChange={handleChange}
           renderInput={(params) => <TextField {...params} />}

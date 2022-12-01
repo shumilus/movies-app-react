@@ -68,20 +68,22 @@ export default function Home() {
     dispatch(setAddMovieOpen({ isOpen: false }));
   };
 
-  const handleAddMovieSubmitClick = () => {
-    handleAddMovieCloseClick();
+  const handleAddMovieSubmitClick = (movie: Movie) => {
+    console.log(movie);
+    // handleAddMovieCloseClick();
   };
 
   const handleEditMovieCloseClick = () => {
     dispatch(setEditMovieOpen({ isOpen: false }));
   };
 
-  const handleConfirmDeleteMovieModalClick = () => {
-    console.log('handleConfirmDeleteMovieModalClick');
+  const handleEditMovieSubmitClick = (movie: Movie) => {
+    console.log(movie);
+    handleEditMovieCloseClick();
   };
 
-  const handleEditMovieSubmitClick = () => {
-    console.log('handleEditMovieSubmitClick');
+  const handleConfirmDeleteMovieModalClick = () => {
+    console.log('handleConfirmDeleteMovieModalClick');
   };
 
   const handleOutsideDeleteMovieModalClick = () => {
