@@ -24,6 +24,7 @@ type MoviesState = {
   isAddMovieOpen: boolean,
   isEditMovieOpen: boolean,
   isDeleteMovieOpen: boolean,
+  moviesListWasChanged: { flag: boolean },
 };
 
 
@@ -50,6 +51,55 @@ export const fetchMovies = createAsyncThunk(
   },
 );
 
+export const requestAddMovie = createAsyncThunk(
+  'movies/requestAddMovie',
+  async function (params: { movie: Movie }, { rejectWithValue }) {
+    try {
+      const response = await fetch(
+        'http://localhost:4000/movies',
+        {
+          method: 'POST',
+          body: JSON.stringify(params.movie),
+          headers: {
+            accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error('Server Error');
+      }
+
+      return await response.json();
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
+export const requestDeleteMovie = createAsyncThunk(
+  'movies/requestDeleteMovie',
+  async function (params: { id: number | undefined }, { rejectWithValue }) {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/movies/${params.id}`,
+        {
+          method: 'DELETE',
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error('Server Error');
+      }
+
+      return await response.json();
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 const initialState: MoviesState = {
   list: [] as Movie[],
   totalAmount: 0,
@@ -60,6 +110,7 @@ const initialState: MoviesState = {
   isAddMovieOpen: false,
   isEditMovieOpen: false,
   isDeleteMovieOpen: false,
+  moviesListWasChanged: { flag: false },
 };
 
 const moviesSlice = createSlice({
@@ -98,6 +149,33 @@ const moviesSlice = createSlice({
       state.error = action.payload;
       state.isSelectedMovieOpen = false;
       state.selectedMovie = undefined;
+    },
+
+    [requestAddMovie.pending as any]: (state: MoviesState) => {
+      state.isLoading = true;
+      state.error = '';
+    },
+    [requestAddMovie.fulfilled as any]: (state: MoviesState) => {
+      state.isLoading = false;
+      state.moviesListWasChanged = { flag: true };
+    },
+    [requestAddMovie.rejected as any]: (state: MoviesState, action: PayloadAction<any>) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+
+    [requestDeleteMovie.pending as any]: (state: MoviesState) => {
+      state.isLoading = true;
+      state.error = '';
+    },
+    [requestDeleteMovie.fulfilled as any]: (state: MoviesState) => {
+      state.isLoading = false;
+      state.moviesListWasChanged = { flag: true };
+    },
+    [requestDeleteMovie.rejected as any]: (state: MoviesState, action: PayloadAction<any>) => {
+      state.isLoading = false;
+      state.error = action.payload;
+      state.moviesListWasChanged = { flag: true };
     },
   },
 });

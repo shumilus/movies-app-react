@@ -9,7 +9,7 @@ import MoviesList from './MoviesList';
 import { Movie } from '../shared/models/Movie.interface';
 import { useAppDispatch, useAppSelector } from '../hooks/hook';
 import {
-  fetchMovies,
+  fetchMovies, requestAddMovie, requestDeleteMovie,
   setAddMovieOpen, setDeleteMovieOpen,
   setEditMovieOpen,
   setIsMovieSelected,
@@ -50,6 +50,7 @@ export default function Home() {
   const isEditMovieOpen: boolean = useAppSelector(state => state.movies.isEditMovieOpen);
   const isDeleteMovieOpen: boolean = useAppSelector(state => state.movies.isDeleteMovieOpen);
   const selectedMovie: Movie | undefined = useAppSelector(state => state.movies.selectedMovie);
+  const moviesListWasChanged: { flag: boolean } = useAppSelector(state => state.movies.moviesListWasChanged);
 
   const handleSortingChange = (key: string) => {
     dispatch(setSorting(key));
@@ -69,30 +70,33 @@ export default function Home() {
   };
 
   const handleAddMovieSubmitClick = (movie: Movie) => {
-    console.log(movie);
-    // handleAddMovieCloseClick();
+    dispatch(requestAddMovie({ movie }));
+    handleAddMovieCloseClick();
   };
 
   const handleEditMovieCloseClick = () => {
     dispatch(setEditMovieOpen({ isOpen: false }));
+    dispatch(setSelectedMovie({ movie: undefined }));
   };
 
   const handleEditMovieSubmitClick = (movie: Movie) => {
     console.log(movie);
-    handleEditMovieCloseClick();
-  };
-
-  const handleConfirmDeleteMovieModalClick = () => {
-    console.log('handleConfirmDeleteMovieModalClick');
+    // handleEditMovieCloseClick();
   };
 
   const handleOutsideDeleteMovieModalClick = () => {
     dispatch(setDeleteMovieOpen({ isOpen: false }));
+    dispatch(setSelectedMovie({ movie: undefined }));
+  };
+
+  const handleConfirmDeleteMovieModalClick = () => {
+    dispatch(requestDeleteMovie({ id: selectedMovie?.id }));
+    handleOutsideDeleteMovieModalClick();
   };
 
   useEffect(() => {
     dispatch(fetchMovies({ sort, filter }));
-  }, [dispatch, sort, filter]);
+  }, [dispatch, sort, filter, moviesListWasChanged]);
 
   return (
     <>
@@ -122,8 +126,8 @@ export default function Home() {
                  submitClick={handleEditMovieSubmitClick}/>
 
       <DeleteMovie isOpen={isDeleteMovieOpen}
-                   outsideClick={handleOutsideDeleteMovieModalClick}
-                   confirmClick={handleConfirmDeleteMovieModalClick}/>
+                   onOutsideClick={handleOutsideDeleteMovieModalClick}
+                   onConfirmClick={handleConfirmDeleteMovieModalClick}/>
     </>
   );
 }

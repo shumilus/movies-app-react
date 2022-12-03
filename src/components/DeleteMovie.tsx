@@ -6,8 +6,8 @@ import Button from './Button';
 
 interface MovieCardMenuProps {
   isOpen: boolean;
-  outsideClick: () => void;
-  confirmClick: () => void;
+  onOutsideClick: () => void;
+  onConfirmClick: () => void;
 }
 
 const useStyles = createUseStyles({
@@ -31,25 +31,25 @@ const useStyles = createUseStyles({
   },
 });
 
-export default function DeleteMovie(props: MovieCardMenuProps) {
+export default function DeleteMovie({  isOpen, onOutsideClick, onConfirmClick }: MovieCardMenuProps) {
   const classes = useStyles();
 
   return (
     <div>
       <Dialog
-        open={props.isOpen}
-        onClose={props.outsideClick}
+        open={isOpen}
+        onClose={onOutsideClick}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <button className="close-button clear-button" onClick={props.outsideClick}></button>
+        <button className="close-button clear-button" onClick={onOutsideClick}></button>
 
         <div className={classes.content}>
           <h2 className={classes.title}>delete movie</h2>
           <p className={classes.subTitle}>Are you sure you want to delete this movie?</p>
 
           <DialogActions>
-            <Button classes='primary-button' title='confirm' handleClick={props.confirmClick}></Button>
+            <Button classes='primary-button' title='confirm' handleClick={onConfirmClick}></Button>
           </DialogActions>
         </div>
       </Dialog>

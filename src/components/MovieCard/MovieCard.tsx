@@ -23,18 +23,22 @@ function MovieCard({ movie, onMovieClick }: MovieCardProps) {
 
   const handleDeleteClick = () => {
     dispatch(setDeleteMovieOpen({ isOpen: true }));
+    dispatch(setSelectedMovie({ movie }));
   };
 
   return (
     <div className='movie-card'>
-      <img className='movie-card-image'
-           src={movie.poster_path}
-           alt="movie"
-           onClick={onMovieClick}
-           onError={({ currentTarget }) => {
-             currentTarget.onerror = null;
-             currentTarget.src = '/images/default-poster.webp';
-           }}/>
+      <div className='movie-card-image__container'>
+        <img className='movie-card-image'
+             src={movie.poster_path}
+             alt="movie"
+             onClick={onMovieClick}
+             onError={({ currentTarget }) => {
+               currentTarget.onerror = null;
+               currentTarget.src = '/images/default-poster.webp';
+             }}/>
+      </div>
+
 
       <div className='d-flex align-center space-between'>
         <p className='movie-card-title'>{movie.title}</p>

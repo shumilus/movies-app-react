@@ -7,6 +7,7 @@ import Datepicker from '../datepicker';
 import { useFormik } from 'formik';
 import dayjs, { Dayjs } from 'dayjs';
 import moment from 'moment';
+import MultipleSelect from '../Select';
 
 export interface MovieFormProps {
   title: string
@@ -21,31 +22,65 @@ const textarea = {
   rows: 4,
 };
 
-export default function MovieForm(props: MovieFormProps) {
+const setInitialValues = (movie: Movie | undefined) => ({
+  title: movie?.title || '',
+  release_date: movie?.release_date || '',
+  poster_path: movie?.poster_path || '',
+  vote_average: movie?.vote_average || '',
+  genres: movie?.genres.join(', ') || '',
+  runtime: movie?.runtime || '',
+  overview: movie?.overview || '',
+});
+
+const validate = (values: any) => {
+  const errors = {} as any;
+
+  if (!values.title) {
+    errors.title = 'Required';
+  }
+
+  if (!values.release_date) {
+    errors.release_date = 'Required';
+  }
+  if (!values.poster_path) {
+    errors.poster_path = 'Required';
+  }
+  if (!values.vote_average) {
+    errors.vote_average = 'Required';
+  }
+  if (!values.genres && !values.genres.length) {
+    errors.genres = 'Required';
+  }
+  if (!values.runtime) {
+    errors.runtime = 'Required';
+  }
+  if (!values.overview) {
+    errors.overview = 'Required';
+  }
+
+  return errors;
+};
+
+const MovieForm: React.FC<MovieFormProps> = (props: MovieFormProps) => {
   const formik = useFormik({
-    initialValues: {
-      title: props.movie?.title || '',
-      releaseDate: props.movie?.release_date || '',
-      movieUrl: props.movie?.poster_path || '',
-      rating: props.movie?.vote_average || '',
-      genre: props.movie?.genres.join(', ') || '',
-      runtime: props.movie?.runtime || '',
-      overview: props.movie?.overview || '',
-    },
-    onSubmit: values => {
-      return props.submitClick(values);
-    },
+    initialValues: setInitialValues(props.movie),
+    onSubmit: values => props.submitClick(values),
+    validate,
   });
 
   const handleDateChange = (date: Dayjs | null) => {
     const dayjsDate = dayjs(date).toDate();
     const releaseDate = moment(dayjsDate).format('YYYY-MM-DD');
-    formik.setFieldValue('releaseDate', releaseDate, true);
+    formik.setFieldValue('release_date', releaseDate, true);
+  };
+
+  const handleSelectChange = (genres: string[]) => {
+    formik.setFieldValue('genres', genres, true);
   };
 
   return (
     <div className='movie-form'>
-      <button type='button' className="close-button clear-button" onClick={props.closeClick}></button>
+      <button type='button' className='close-button clear-button' onClick={props.closeClick}></button>
 
       <h2 className='movie-form-title'>{props.title}</h2>
       <form onSubmit={formik.handleSubmit}>
@@ -61,7 +96,7 @@ export default function MovieForm(props: MovieFormProps) {
               onChange={formik.handleChange}/>
           </div>
 
-          <div className='movie-form-input-container modal-input-container-small'>
+          <div className='movie-form-input-container movie-form-input-container-small'>
             <label className='movie-form-input-label' htmlFor='release-date'>release date</label>
             <div className='movie-form-input movie-form-date-input'>
               <Datepicker onDateChange={handleDateChange}/>
@@ -71,45 +106,42 @@ export default function MovieForm(props: MovieFormProps) {
 
         <div className='d-flex'>
           <div className='movie-form-input-container'>
-            <label className='movie-form-input-label' htmlFor='movie-url'>movie url</label>
+            <label className='movie-form-input-label' htmlFor='poster-path'>movie url</label>
             <input
               className='movie-form-input'
               type='text'
-              id='movie-url'
-              name='movieUrl'
-              value={formik.values.movieUrl}
+              id='poster-path'
+              name='poster_path'
+              value={formik.values.poster_path}
               onChange={formik.handleChange}/>
           </div>
 
-          <div className='movie-form-input-container modal-input-container-small'>
-            <label className='movie-form-input-label' htmlFor='rating'>rating</label>
+          <div className='movie-form-input-container movie-form-input-container-small'>
+            <label className='movie-form-input-label' htmlFor='vote-average'>rating</label>
             <input
               className='movie-form-input'
-              type='text'
-              id='rating'
-              name='rating'
-              value={formik.values.rating}
+              type='number'
+              id='vote-average'
+              name='vote_average'
+              value={formik.values.vote_average}
               onChange={formik.handleChange}/>
           </div>
         </div>
 
         <div className='d-flex'>
           <div className='movie-form-input-container'>
-            <label className='movie-form-input-label' htmlFor='genre'>genre</label>
-            <input
-              className='movie-form-input'
-              type='text'
-              id='genre'
-              name='genre'
-              value={formik.values.genre}
-              onChange={formik.handleChange}/>
+            <label className='movie-form-input-label' htmlFor='genres'>genres</label>
+            <div className='movie-form-input select-input'>
+              <MultipleSelect items={props.movie?.genres || []}
+                              onSelectChange={(genres: string[]) => handleSelectChange(genres)}/>
+            </div>
           </div>
 
-          <div className='movie-form-input-container modal-input-container-small'>
+          <div className='movie-form-input-container movie-form-input-container-small'>
             <label className='movie-form-input-label' htmlFor='runtime'>runtime</label>
             <input
               className='movie-form-input'
-              type='text'
+              type='number'
               id='runtime'
               name='runtime'
               value={formik.values.runtime}
@@ -118,7 +150,7 @@ export default function MovieForm(props: MovieFormProps) {
         </div>
 
         <div className='d-flex flex-wrap'>
-          <label className='movie-form-input-label' htmlFor='title'>overview</label>
+          <label className='movie-form-input-label' htmlFor='overview'>overview</label>
           <textarea className='movie-form-overview movie-form-input'
                     cols={textarea.cols}
                     rows={textarea.rows}
@@ -138,4 +170,9 @@ export default function MovieForm(props: MovieFormProps) {
       </form>
     </div>
   );
-}
+};
+
+export default React.memo(MovieForm, (
+  prevProps: Readonly<MovieFormProps>,
+  nextProps: Readonly<MovieFormProps>,
+) => prevProps?.movie?.id === nextProps?.movie?.id);

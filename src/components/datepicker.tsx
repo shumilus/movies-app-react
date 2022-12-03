@@ -17,7 +17,7 @@ export default function Datepicker({ onDateChange }: DatepickerProps) {
 
   const handleChange = (newValue: Dayjs | null) => {
     setValue(newValue);
-    onDateChange(value);
+    onDateChange(newValue);
   };
 
   return (

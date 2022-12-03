@@ -20,7 +20,7 @@
     display: flex;
     flex-wrap: wrap;
     width: 520px;
-    margin: 0 30px 15px 0;
+    margin: 0 30px 25px 0;
 
     &-small {
       width: 300px;
@@ -49,7 +49,7 @@
     font-size: 20px;
     line-height: 24px;
     color: $lightColor;
-    padding: 10px 17px;
+    padding: 11px 17px;
     background: rgba(50, 50, 50, 0.948044);
     mix-blend-mode: normal;
     opacity: 0.8;
@@ -57,7 +57,7 @@
   }
 
   &-date-input {
-    height: 44px;
+    height: 46px;
     box-sizing: border-box;
     display: flex;
     width: 100%;
@@ -79,4 +79,8 @@
   &-buttons-container {
     margin-top: 15px;
   }
+}
+
+.select-input {
+  padding: 0;
 }
