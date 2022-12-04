@@ -78,6 +78,33 @@ export const requestAddMovie = createAsyncThunk(
   },
 );
 
+export const requestEditMovie = createAsyncThunk(
+  'movies/requestEditMovie',
+  async function (params: { movie: Movie }, { rejectWithValue }) {
+    try {
+      const response = await fetch(
+        'http://localhost:4000/movies',
+        {
+          method: 'PUT',
+          body: JSON.stringify(params.movie),
+          headers: {
+            accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error('Server Error');
+      }
+
+      return await response.json();
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 export const requestDeleteMovie = createAsyncThunk(
   'movies/requestDeleteMovie',
   async function (params: { id: number | undefined }, { rejectWithValue }) {
@@ -160,6 +187,19 @@ const moviesSlice = createSlice({
       state.moviesListWasChanged = { flag: true };
     },
     [requestAddMovie.rejected as any]: (state: MoviesState, action: PayloadAction<any>) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+
+    [requestEditMovie.pending as any]: (state: MoviesState) => {
+      state.isLoading = true;
+      state.error = '';
+    },
+    [requestEditMovie.fulfilled as any]: (state: MoviesState) => {
+      state.isLoading = false;
+      state.moviesListWasChanged = { flag: true };
+    },
+    [requestEditMovie.rejected as any]: (state: MoviesState, action: PayloadAction<any>) => {
       state.isLoading = false;
       state.error = action.payload;
     },

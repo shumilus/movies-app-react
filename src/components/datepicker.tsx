@@ -7,12 +7,13 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 export interface DatepickerProps {
+  date: string | undefined;
   onDateChange: (date: Dayjs | null) => void;
 }
 
-export default function Datepicker({ onDateChange }: DatepickerProps) {
+export default function Datepicker({ date, onDateChange }: DatepickerProps) {
   const [value, setValue] = React.useState<Dayjs | null>(
-    dayjs(new Date()),
+    date ? dayjs(date) : null,
   );
 
   const handleChange = (newValue: Dayjs | null) => {

@@ -19,7 +19,10 @@ export default function EditMovie(props: EditMovieProps) {
                    title='edit movie'
                    isOpen={props.isOpen}
                    closeClick={props.closeClick}
-                   submitClick={(movie: Movie) => props.submitClick(movie)}/>
+                   submitClick={(movie: Movie) => props.submitClick({
+                     ...movie,
+                     id: props?.movie?.id ? props.movie.id : 0,
+                   })}/>
       </Dialog>
     </>
   );

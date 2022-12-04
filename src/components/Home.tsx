@@ -9,7 +9,7 @@ import MoviesList from './MoviesList';
 import { Movie } from '../shared/models/Movie.interface';
 import { useAppDispatch, useAppSelector } from '../hooks/hook';
 import {
-  fetchMovies, requestAddMovie, requestDeleteMovie,
+  fetchMovies, requestAddMovie, requestDeleteMovie, requestEditMovie,
   setAddMovieOpen, setDeleteMovieOpen,
   setEditMovieOpen,
   setIsMovieSelected,
@@ -80,8 +80,8 @@ export default function Home() {
   };
 
   const handleEditMovieSubmitClick = (movie: Movie) => {
-    console.log(movie);
-    // handleEditMovieCloseClick();
+    dispatch(requestEditMovie({ movie }));
+    handleEditMovieCloseClick();
   };
 
   const handleOutsideDeleteMovieModalClick = () => {
