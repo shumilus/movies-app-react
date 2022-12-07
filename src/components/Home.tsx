@@ -11,6 +11,8 @@ import { useAppDispatch, useAppSelector } from '../hooks/hook';
 import { fetchMovies, setSelectedMovie } from '../store/moviesSlice';
 import { setSorting } from '../store/sortingSlice';
 import { setFilter } from '../store/filterSlice';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { setSearch } from '../store/searchSlice';
 
 const useStyles = createUseStyles({
   filtersContainer: {
@@ -30,9 +32,12 @@ const useStyles = createUseStyles({
 export default function Home() {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const sort: string = useAppSelector(state => state.sorting.key);
   const filter: string = useAppSelector(state => state.filter.key);
+  const search: string = useAppSelector(state => state.search.value);
   const isLoading: boolean = useAppSelector(state => state.movies.isLoading);
   const movies: Movie[] = useAppSelector(state => state.movies.list);
   const totalAmount: number = useAppSelector(state => state.movies.totalAmount);
@@ -42,7 +47,13 @@ export default function Home() {
   };
 
   const handleFilterChange = (key: string) => {
-    dispatch(setFilter(key));
+    const searchParam = searchParams.get('title');
+    const filterParam = searchParams.get('genre');
+
+    navigate({
+      pathname: '/search',
+      search: !key || key === 'All' ? '' : `?genre=${key}`,
+    });
   };
 
   const handleMovieClick = (movie: Movie) => {
@@ -50,8 +61,17 @@ export default function Home() {
   };
 
   useEffect(() => {
-    dispatch(fetchMovies({ sort, filter }));
-  }, [dispatch, sort, filter]);
+    const searchParam = searchParams.get('title');
+    const filterParam = searchParams.get('genre');
+    console.log(filterParam);
+
+    dispatch(setSearch(searchParam || ''));
+    dispatch(setFilter(filterParam || 'All'));
+  }, [dispatch, searchParams]);
+
+  useEffect(() => {
+    dispatch(fetchMovies({ sort, filter, search }));
+  }, [dispatch, sort, filter, search]);
 
   return (
     <>

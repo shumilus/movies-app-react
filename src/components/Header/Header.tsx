@@ -10,12 +10,16 @@ import MovieDetails from '../MovieDetails/MovieDetails';
 import { useAppDispatch, useAppSelector } from '../../hooks/hook';
 import { Movie } from '../../shared/models/Movie.interface';
 import { setSelectedMovie } from '../../store/moviesSlice';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 export default function Header() {
   const dispatch = useAppDispatch();
+  const [searchParams] = useSearchParams();
   const [isAddMovieOpen, setIsAddMovieOpen] = useState(false);
   const isMovieSelected: boolean = useAppSelector(state => state.movies.isMovieSelected);
   const movie: Movie | undefined = useAppSelector(state => state.movies.selectedMovie);
+  const search: string = useAppSelector(state => state.search.value);
+  const navigate = useNavigate();
 
   const handleAddMovieClickOpen = () => {
     setIsAddMovieOpen(true);
@@ -33,6 +37,16 @@ export default function Header() {
     dispatch(setSelectedMovie({ movie: undefined, isSelected: false }));
   };
 
+  const handleSearchClick = (value: string) => {
+    const searchParam = searchParams.get('title');
+    const filterParam = searchParams.get('genre');
+
+    navigate({
+      pathname: '/search',
+      search: value ? `?title=${value}` : '',
+    });
+  };
+
   return (
     <div className='header'>
       {isMovieSelected
@@ -46,7 +60,7 @@ export default function Header() {
             <MainTitle text='find your movie'/>
           </div>
           <div className='search-container'>
-            <Search/>
+            <Search search={search} onSearchClick={handleSearchClick}/>
           </div>
         </div>
       }

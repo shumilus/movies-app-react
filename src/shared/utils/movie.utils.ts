@@ -7,8 +7,9 @@ export const setMoviesGenres = (genres: string[] | undefined): string[] => {
   return genres.map((i: string, index: number) => `${i}${index === genres.length - 1 ? '' : ', '}`);
 };
 
-export const setMoviesRequestParams = ({ sort, filter }: MovieRequestParams): string => {
+export const setMoviesRequestParams = ({ sort, filter, search }: MovieRequestParams): string => {
   const sortParam = `sortBy=${sort}&sortOrder=desc`;
   const filterParam = filter !== 'All' ? `filter=${filter}` : '';
-  return `${sortParam}&${filterParam}`;
+  const searchParams = search ? `search=${search}&searchBy=title` : '';
+  return `${sortParam}&${filterParam}&${searchParams}`;
 };

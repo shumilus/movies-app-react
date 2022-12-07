@@ -5,6 +5,7 @@ import { setMoviesRequestParams } from '../shared/utils/movie.utils';
 export interface MovieRequestParams {
   sort: string;
   filter: string;
+  search: string;
 }
 
 interface ResponseData {
