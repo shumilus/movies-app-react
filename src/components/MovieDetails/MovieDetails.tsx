@@ -2,15 +2,16 @@ import * as React from 'react';
 
 import Logo from '../Logo';
 import './MovieDetails.scss';
-import { Movie } from '../../shared/models/Movie.interface';
 import { setMoviesGenres } from '../../shared/utils/movie.utils';
+import { Movie } from '../../shared/models/Movie.interface';
 
 interface MovieDetailsProps {
-  movie: Movie | undefined,
-  returnToSearchClick: () => void,
+  movie: Movie;
+  returnToSearchClick: () => void;
 }
 
 export default function MovieDetails({ movie, returnToSearchClick }: MovieDetailsProps) {
+
   return (
     <div className='movie-details'>
       <div className='app-wrapper'>
@@ -38,7 +39,7 @@ export default function MovieDetails({ movie, returnToSearchClick }: MovieDetail
             <p className='movie-details-genre'>{setMoviesGenres(movie?.genres)}</p>
 
             <div>
-              <span className='movie-details-year red-color'>{movie?.release_date.slice(0, 4)}</span>
+              <span className='movie-details-year red-color'>{movie?.release_date?.slice(0, 4)}</span>
               <span className='movie-details-runtime red-color'>{movie?.runtime}</span>
             </div>
             <p className='movie-details-description'>{movie?.overview}</p>

@@ -4,7 +4,7 @@ import React from 'react';
 
 interface MoviesListProps {
   movies: Movie[],
-  onMovieClick: (movie: Movie) => void,
+  onMovieClick: (id: number) => void,
 }
 
 const MoviesList: React.FC<MoviesListProps> = ({ movies, onMovieClick }: MoviesListProps) => {
@@ -12,7 +12,7 @@ const MoviesList: React.FC<MoviesListProps> = ({ movies, onMovieClick }: MoviesL
     <div className='d-flex space-between flex-wrap'>
       {
         movies.map((movie: Movie) => (
-          <MovieCard movie={movie} key={movie.id} onMovieClick={() => onMovieClick(movie)}/>
+          <MovieCard movie={movie} key={movie.id} onMovieClick={() => onMovieClick(movie.id)}/>
         ))
       }
     </div>

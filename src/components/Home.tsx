@@ -8,11 +8,12 @@ import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 import MoviesList from './MoviesList';
 import { Movie } from '../shared/models/Movie.interface';
 import { useAppDispatch, useAppSelector } from '../hooks/hook';
-import { fetchMovies, setSelectedMovie } from '../store/moviesSlice';
+import { fetchMovie, fetchMovies } from '../store/moviesSlice';
 import { setSorting } from '../store/sortingSlice';
 import { setFilter } from '../store/filterSlice';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { setSearch } from '../store/searchSlice';
+import { convertToQueryParams } from '../shared/utils/movie.utils';
 
 const useStyles = createUseStyles({
   filtersContainer: {
@@ -29,10 +30,17 @@ const useStyles = createUseStyles({
   },
 });
 
+function setNavigateValue(queryParams: URLSearchParams, paramKey: string, paramValue: string): any {
+  return {
+    pathname: '/search',
+    search: convertToQueryParams(queryParams, paramKey, paramValue),
+  };
+}
+
 export default function Home() {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-  const [searchParams] = useSearchParams();
+  const [queryParams] = useSearchParams();
   const navigate = useNavigate();
 
   const sort: string = useAppSelector(state => state.sorting.key);
@@ -43,31 +51,30 @@ export default function Home() {
   const totalAmount: number = useAppSelector(state => state.movies.totalAmount);
 
   const handleSortingChange = (key: string) => {
-    dispatch(setSorting(key));
+    navigate(setNavigateValue(queryParams, 'sortBy', key));
   };
 
   const handleFilterChange = (key: string) => {
-    const searchParam = searchParams.get('title');
-    const filterParam = searchParams.get('genre');
+    const filterKey = (key && key !== 'All') ? key : '';
 
-    navigate({
-      pathname: '/search',
-      search: !key || key === 'All' ? '' : `?genre=${key}`,
-    });
+    navigate(setNavigateValue(queryParams, 'genre', filterKey));
   };
 
-  const handleMovieClick = (movie: Movie) => {
-    dispatch(setSelectedMovie({ movie, isSelected: true }));
+  const handleMovieClick = (id: number) => {
+    navigate(setNavigateValue(queryParams, 'movie', String(id)));
   };
 
   useEffect(() => {
-    const searchParam = searchParams.get('title');
-    const filterParam = searchParams.get('genre');
-    console.log(filterParam);
+    const searchParams = queryParams.get('title');
+    const filterParams = queryParams.get('genre');
+    const sortParams = queryParams.get('sortBy');
+    const movieParams = queryParams.get('movie');
 
-    dispatch(setSearch(searchParam || ''));
-    dispatch(setFilter(filterParam || 'All'));
-  }, [dispatch, searchParams]);
+    dispatch(setSearch(searchParams || ''));
+    dispatch(setFilter(filterParams || 'All'));
+    dispatch(setSorting(sortParams || 'release_date'));
+    dispatch(fetchMovie({ id: Number(movieParams) || 0 }));
+  }, [dispatch, queryParams]);
 
   useEffect(() => {
     dispatch(fetchMovies({ sort, filter, search }));
@@ -86,9 +93,11 @@ export default function Home() {
         <MoviesResultsLabel result={totalAmount}/>
       </div>
       <ErrorBoundary componentName="MoviesList">
-        {isLoading
-          ? <div>Loading...</div>
-          : <MoviesList movies={movies} onMovieClick={handleMovieClick}/>}
+        {
+          isLoading
+            ? <div>Loading...</div>
+            : <MoviesList movies={movies} onMovieClick={handleMovieClick}/>
+        }
       </ErrorBoundary>
     </>
   );

@@ -1,5 +1,5 @@
 export interface Movie {
-  id: string;
+  id: number;
   title: string;
   tagline: string;
   vote_average: number;

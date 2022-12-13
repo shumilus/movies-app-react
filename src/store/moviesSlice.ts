@@ -16,12 +16,11 @@ interface ResponseData {
 }
 
 type MoviesState = {
-  list: Movie[],
-  totalAmount: number,
-  isLoading: boolean,
-  error: string,
-  isMovieSelected: boolean,
-  selectedMovie: Movie | undefined,
+  list: Movie[];
+  totalAmount: number;
+  isLoading: boolean;
+  error: string;
+  selectedMovie: Movie | undefined;
 };
 
 
@@ -48,12 +47,31 @@ export const fetchMovies = createAsyncThunk(
   },
 );
 
+export const fetchMovie = createAsyncThunk(
+  'movies/fetchMovie',
+  async function (params: { id: number }, { rejectWithValue }) {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/movies/${params.id}`,
+        { method: 'GET' },
+      );
+
+      if (!response.ok) {
+        throw new Error('Server Error');
+      }
+
+      return await response.json();
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 const initialState: MoviesState = {
   list: [] as Movie[],
   totalAmount: 0,
   isLoading: false,
   error: '',
-  isMovieSelected: false,
   selectedMovie: undefined,
 };
 
@@ -61,9 +79,8 @@ const moviesSlice = createSlice({
   name: 'movies',
   initialState,
   reducers: {
-    setSelectedMovie(state, action: PayloadAction<{ movie: Movie | undefined, isSelected: boolean }>) {
-      state.isMovieSelected = action.payload.isSelected;
-      state.selectedMovie = action.payload.movie;
+    setSelectedMovie(state, action: PayloadAction<Movie | undefined>) {
+      state.selectedMovie = action.payload;
     },
   },
   extraReducers: {
@@ -80,7 +97,21 @@ const moviesSlice = createSlice({
       state.list = [];
       state.isLoading = false;
       state.error = action.payload;
-      state.isMovieSelected = false;
+      state.selectedMovie = undefined;
+    },
+    [fetchMovie.pending as any]: (state: MoviesState) => {
+      state.isLoading = true;
+      state.error = '';
+    },
+    [fetchMovie.fulfilled as any]: (state: MoviesState, action: PayloadAction<Movie>) => {
+      state.isLoading = false;
+      state.selectedMovie = action.payload;
+    },
+    [fetchMovie.rejected as any]: (state: MoviesState, action: PayloadAction<any>) => {
+      state.list = [];
+      state.isLoading = false;
+      state.error = action.payload;
+      state.selectedMovie = undefined;
       state.selectedMovie = undefined;
     },
   },
