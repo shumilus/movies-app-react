@@ -1,8 +1,10 @@
 import { createUseStyles } from 'react-jss';
-import { Routes, Route, Navigate } from 'react-router-dom';
 
 import Home from './Home';
-import NotFound from './NotFound';
+import React from 'react';
+import Header from './Header/Header';
+import Footer from './Footer';
+import Logo from './Logo';
 
 const useStyles = createUseStyles({
   mainContainer: {
@@ -15,14 +17,22 @@ export default function Main() {
   const classes = useStyles();
 
   return (
-    <div className={ `${ classes.mainContainer } dark-background` }>
-      <div className='app-wrapper'>
-        <Routes>
-          <Route path='/' element={<Navigate to='/search'/>} />
-          <Route path='/search' element={<Home/>} />
-          <Route path='*' element={<NotFound/>} />
-        </Routes>
-      </div>
+    <div className="App">
+      <header>
+        <Header/>
+      </header>
+      <main>
+        <div className={ `${ classes.mainContainer } dark-background` }>
+          <div className='app-wrapper'>
+            <Home/>
+          </div>
+        </div>
+      </main>
+      <footer>
+        <Footer>
+          <Logo/>
+        </Footer>
+      </footer>
     </div>
   );
 }

@@ -13,14 +13,12 @@ export interface EditMovieProps {
 
 export default function EditMovie(props: EditMovieProps) {
   return (
-    <>
-      <Dialog open={props.isOpen} onClose={props.closeClick}>
-        <MovieForm movie={props.movie}
-                   title='edit movie'
-                   isOpen={props.isOpen}
-                   closeClick={props.closeClick}
-                   submitClick={props.submitClick}/>
-      </Dialog>
-    </>
+    <Dialog open={props.isOpen} onClose={props.closeClick}>
+      <MovieForm movie={props.movie}
+                 title='edit movie'
+                 isOpen={props.isOpen}
+                 closeClick={props.closeClick}
+                 submitClick={props.submitClick}/>
+    </Dialog>
   );
 }
