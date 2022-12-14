@@ -1,36 +1,27 @@
+import * as React from 'react';
+
 import './Header.scss';
 import Logo from '../Logo';
 import MainTitle from '../MainTitle';
 import Search from '../Search';
-import AddMovie from '../AddMovie';
 import AddMovieButton from '../AddMovieButton';
-import * as React from 'react';
-import { useState } from 'react';
 import MovieDetails from '../MovieDetails/MovieDetails';
 import { useAppDispatch, useAppSelector } from '../../hooks/hook';
 import { Movie } from '../../shared/models/Movie.interface';
-import { setSelectedMovie } from '../../store/moviesSlice';
+import { setAddMovieOpen, setIsMovieSelected, setSelectedMovie } from '../../store/moviesSlice';
 
 export default function Header() {
   const dispatch = useAppDispatch();
-  const [isAddMovieOpen, setIsAddMovieOpen] = useState(false);
-  const isMovieSelected: boolean = useAppSelector(state => state.movies.isMovieSelected);
+  const isMovieSelected: boolean = useAppSelector(state => state.movies.isSelectedMovieOpen);
   const movie: Movie | undefined = useAppSelector(state => state.movies.selectedMovie);
 
-  const handleAddMovieClickOpen = () => {
-    setIsAddMovieOpen(true);
-  };
-
-  const handleAddMovieCloseClick = () => {
-    setIsAddMovieOpen(false);
-  };
-
-  const handleAddMovieSubmitClick = () => {
-    setIsAddMovieOpen(false);
+  const handleAddMovieOpenClick = () => {
+    dispatch(setAddMovieOpen({ isOpen: true }));
   };
 
   const handleReturnToSearchClick = () => {
-    dispatch(setSelectedMovie({ movie: undefined, isSelected: false }));
+    dispatch(setSelectedMovie({ movie: undefined }));
+    dispatch(setIsMovieSelected({ isSelected: false }));
   };
 
   return (
@@ -40,7 +31,7 @@ export default function Header() {
         : <div className='app-wrapper'>
           <div className='d-flex space-between'>
             <Logo/>
-            <AddMovieButton title='+ add movie' handleClickAdd={handleAddMovieClickOpen}/>
+            <AddMovieButton title='+ add movie' handleClickAdd={handleAddMovieOpenClick}/>
           </div>
           <div className='title-container'>
             <MainTitle text='find your movie'/>
@@ -50,10 +41,6 @@ export default function Header() {
           </div>
         </div>
       }
-
-      <AddMovie isOpen={isAddMovieOpen}
-                closeClick={handleAddMovieCloseClick}
-                submitClick={handleAddMovieSubmitClick}></AddMovie>
     </div>
   );
 }
