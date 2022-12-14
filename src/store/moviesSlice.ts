@@ -9,23 +9,24 @@ export interface MovieRequestParams {
 }
 
 interface ResponseData {
-  data: Movie[],
-  limit: number,
-  offset: number,
-  totalAmount: number,
+  data: Movie[];
+  limit: number;
+  offset: number;
+  totalAmount: number;
 }
 
 type MoviesState = {
-  list: Movie[],
-  totalAmount: number,
-  isLoading: boolean,
-  error: string,
-  selectedMovie: Movie | undefined,
-  isSelectedMovieOpen: boolean,
-  isAddMovieOpen: boolean,
-  isEditMovieOpen: boolean,
-  isDeleteMovieOpen: boolean,
-  moviesListWasChanged: { flag: boolean },
+  list: Movie[];
+  totalAmount: number;
+  isLoading: boolean;
+  error: string;
+  selectedMovie: Movie | undefined;
+  isSelectedMovieOpen: boolean;
+  isAddMovieOpen: boolean;
+  isEditMovieOpen: boolean;
+  isDeleteMovieOpen: boolean;
+  openedMovie: Movie | undefined;
+  moviesListWasChanged: { flag: boolean };
 };
 
 
@@ -159,6 +160,7 @@ const initialState: MoviesState = {
   isEditMovieOpen: false,
   isDeleteMovieOpen: false,
   moviesListWasChanged: { flag: false },
+  openedMovie: undefined,
 };
 
 const moviesSlice = createSlice({
@@ -179,6 +181,9 @@ const moviesSlice = createSlice({
     },
     setDeleteMovieOpen(state, action: PayloadAction<{ isOpen: boolean }>) {
       state.isDeleteMovieOpen = action.payload.isOpen;
+    },
+    setOpenedMovie(state, action: PayloadAction<Movie | undefined>) {
+      state.selectedMovie = action.payload;
     },
   },
   extraReducers: {
@@ -203,14 +208,13 @@ const moviesSlice = createSlice({
     },
     [fetchMovie.fulfilled as any]: (state: MoviesState, action: PayloadAction<Movie>) => {
       state.isLoading = false;
-      state.selectedMovie = action.payload;
+      state.openedMovie = action.payload;
     },
     [fetchMovie.rejected as any]: (state: MoviesState, action: PayloadAction<any>) => {
       state.list = [];
       state.isLoading = false;
       state.error = action.payload;
-      state.selectedMovie = undefined;
-      state.selectedMovie = undefined;
+      state.openedMovie = undefined;
     },
 
     [requestAddMovie.pending as any]: (state: MoviesState) => {
@@ -257,10 +261,10 @@ const moviesSlice = createSlice({
 
 export const {
   setSelectedMovie,
-  setIsMovieSelected,
   setAddMovieOpen,
   setEditMovieOpen,
   setDeleteMovieOpen,
+  setOpenedMovie,
 } = moviesSlice.actions;
 
 export default moviesSlice.reducer;

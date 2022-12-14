@@ -18,12 +18,12 @@ function MovieCard({ movie, onMovieClick }: MovieCardProps) {
 
   const handleEditClick = () => {
     dispatch(setEditMovieOpen({ isOpen: true }));
-    dispatch(setSelectedMovie({ movie }));
+    dispatch(setSelectedMovie(movie));
   };
 
   const handleDeleteClick = () => {
     dispatch(setDeleteMovieOpen({ isOpen: true }));
-    dispatch(setSelectedMovie({ movie }));
+    dispatch(setSelectedMovie(movie));
   };
 
   return (

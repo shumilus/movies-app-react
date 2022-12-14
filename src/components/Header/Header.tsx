@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState } from 'react';
 
 import MovieDetails from '../MovieDetails/MovieDetails';
 import './Header.scss';
@@ -11,13 +10,19 @@ import { useAppDispatch, useAppSelector } from '../../hooks/hook';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { convertToQueryParams } from '../../shared/utils/movie.utils';
 import { Movie } from '../../shared/models/Movie.interface';
-import { setAddMovieOpen, setIsMovieSelected, setSelectedMovie } from '../../store/moviesSlice';
+import { setAddMovieOpen } from '../../store/moviesSlice';
+
+function setNavigateValue(queryParams: URLSearchParams, paramKey: string, paramValue: string): any {
+  return {
+    pathname: '/search',
+    search: convertToQueryParams(queryParams, paramKey, paramValue),
+  };
+}
 
 export default function Header() {
   const dispatch = useAppDispatch();
   const [queryParams] = useSearchParams();
-  const [isAddMovieOpen, setIsAddMovieOpen] = useState(false);
-  const movie: Movie | undefined = useAppSelector(state => state.movies.selectedMovie);
+  const movie: Movie | undefined = useAppSelector(state => state.movies.openedMovie);
   const search: string = useAppSelector(state => state.search.value);
   const navigate = useNavigate();
 
@@ -26,14 +31,11 @@ export default function Header() {
   };
 
   const handleReturnToSearchClick = () => {
-    dispatch(setSelectedMovie(undefined));
+    navigate(setNavigateValue(queryParams, 'movie', ''));
   };
 
   const handleSearchClick = (value: string) => {
-    navigate({
-      pathname: '/search',
-      search: convertToQueryParams(queryParams, 'title', value),
-    });
+    navigate(setNavigateValue(queryParams, 'title', value));
   };
 
   return (
@@ -44,7 +46,7 @@ export default function Header() {
           : <div className='app-wrapper'>
             <div className='d-flex space-between'>
               <Logo/>
-              <AddMovieButton title='+ add movie' handleClickAdd={handleAddMovieClickOpen}/>
+              <AddMovieButton title='+ add movie' handleClickAdd={handleAddMovieOpenClick}/>
             </div>
             <div className='title-container'>
               <MainTitle text='find your movie'/>

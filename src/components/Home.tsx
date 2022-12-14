@@ -17,7 +17,6 @@ import {
   setAddMovieOpen,
   setDeleteMovieOpen,
   setEditMovieOpen,
-  setIsMovieSelected,
   setSelectedMovie,
 } from '../store/moviesSlice';
 import { setSorting } from '../store/sortingSlice';
@@ -61,7 +60,6 @@ export default function Home() {
   const sort: string = useAppSelector(state => state.sorting.key);
   const filter: string = useAppSelector(state => state.filter.key);
   const search: string = useAppSelector(state => state.search.value);
-  const isLoading: boolean = useAppSelector(state => state.movies.isLoading);
   const movies: Movie[] = useAppSelector(state => state.movies.list);
   const totalAmount: number = useAppSelector(state => state.movies.totalAmount);
   const isAddMovieOpen: boolean = useAppSelector(state => state.movies.isAddMovieOpen);
@@ -95,7 +93,7 @@ export default function Home() {
 
   const handleEditMovieCloseClick = () => {
     dispatch(setEditMovieOpen({ isOpen: false }));
-    dispatch(setSelectedMovie({ movie: undefined }));
+    dispatch(setSelectedMovie(undefined));
   };
 
   const handleEditMovieSubmitClick = (movie: Movie) => {
@@ -105,7 +103,7 @@ export default function Home() {
 
   const handleOutsideDeleteMovieModalClick = () => {
     dispatch(setDeleteMovieOpen({ isOpen: false }));
-    dispatch(setSelectedMovie({ movie: undefined }));
+    dispatch(setSelectedMovie(undefined));
   };
 
   const handleConfirmDeleteMovieModalClick = () => {
@@ -142,11 +140,7 @@ export default function Home() {
         <MoviesResultsLabel result={totalAmount}/>
       </div>
       <ErrorBoundary componentName="MoviesList">
-        {
-          isLoading
-            ? <div>Loading...</div>
-            : <MoviesList movies={movies} onMovieClick={handleMovieClick}/>
-        }
+        <MoviesList movies={movies} onMovieClick={handleMovieClick}/>
       </ErrorBoundary>
 
       <AddMovie isOpen={isAddMovieOpen}
