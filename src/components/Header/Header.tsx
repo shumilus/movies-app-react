@@ -6,13 +6,12 @@ import './Header.scss';
 import Logo from '../Logo';
 import MainTitle from '../MainTitle';
 import Search from '../Search';
-import AddMovie from '../AddMovie';
 import AddMovieButton from '../AddMovieButton';
 import { useAppDispatch, useAppSelector } from '../../hooks/hook';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { convertToQueryParams } from '../../shared/utils/movie.utils';
 import { Movie } from '../../shared/models/Movie.interface';
-import { setSelectedMovie } from '../../store/moviesSlice';
+import { setAddMovieOpen, setIsMovieSelected, setSelectedMovie } from '../../store/moviesSlice';
 
 export default function Header() {
   const dispatch = useAppDispatch();
@@ -22,16 +21,8 @@ export default function Header() {
   const search: string = useAppSelector(state => state.search.value);
   const navigate = useNavigate();
 
-  const handleAddMovieClickOpen = () => {
-    setIsAddMovieOpen(true);
-  };
-
-  const handleAddMovieCloseClick = () => {
-    setIsAddMovieOpen(false);
-  };
-
-  const handleAddMovieSubmitClick = () => {
-    setIsAddMovieOpen(false);
+  const handleAddMovieOpenClick = () => {
+    dispatch(setAddMovieOpen({ isOpen: true }));
   };
 
   const handleReturnToSearchClick = () => {
@@ -63,10 +54,6 @@ export default function Header() {
             </div>
           </div>
       }
-
-      <AddMovie isOpen={isAddMovieOpen}
-                closeClick={handleAddMovieCloseClick}
-                submitClick={handleAddMovieSubmitClick}></AddMovie>
     </div>
   );
 }

@@ -78,9 +78,11 @@
   height: 32px;
   opacity: 0.3;
 }
+
 .close-button:hover {
   opacity: 1;
 }
+
 .close-button:before, .close-button:after {
   position: absolute;
   left: 15px;
@@ -89,9 +91,11 @@
   width: 2px;
   background-color: $lightColor;
 }
+
 .close-button:before {
   transform: rotate(45deg);
 }
+
 .close-button:after {
   transform: rotate(-45deg);
 }

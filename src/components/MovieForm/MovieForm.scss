@@ -17,10 +17,11 @@
   }
 
   &-input-container {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     width: 520px;
-    margin: 0 30px 15px 0;
+    margin: 0 30px 30px 0;
 
     &-small {
       width: 300px;
@@ -49,15 +50,29 @@
     font-size: 20px;
     line-height: 24px;
     color: $lightColor;
-    padding: 10px 17px;
+    padding: 11px 17px;
     background: rgba(50, 50, 50, 0.948044);
     mix-blend-mode: normal;
     opacity: 0.8;
     border-radius: 4px;
+    border: 1px solid transparent;
+
+    &-invalid {
+      border: 1px solid $secondaryColorHover;
+
+      &__error {
+        position: absolute;
+        bottom: -20px;
+        color: $secondaryColorHover;
+        font-size: 14px;
+        box-sizing: border-box;
+      }
+
+    }
   }
 
   &-date-input {
-    height: 44px;
+    height: 46px;
     box-sizing: border-box;
     display: flex;
     width: 100%;
@@ -73,10 +88,22 @@
     opacity: 0.8;
     border-radius: 4px;
     box-sizing: border-box;
-    border: none;
+    border: 1px solid transparent;
+
+    &-invalid {
+      border: 1px solid $secondaryColorHover;
+    }
   }
 
   &-buttons-container {
     margin-top: 15px;
   }
+}
+
+.select-input {
+  padding: 0;
+}
+
+.p-relative {
+  position: relative;
 }

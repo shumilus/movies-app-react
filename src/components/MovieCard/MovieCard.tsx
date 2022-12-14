@@ -1,13 +1,12 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 
 import MovieCardMenu from '../MovieCardMenu/MovieCardMenu';
-import DeleteMovie from '../DeleteMovie';
 import { Movie } from '../../shared/models/Movie.interface';
 import './MovieCard.scss';
-import EditMovie from '../EditMovie';
 import { setMoviesGenres } from '../../shared/utils/movie.utils';
+import { useAppDispatch } from '../../hooks/hook';
+import { setDeleteMovieOpen, setEditMovieOpen, setSelectedMovie } from '../../store/moviesSlice';
 
 interface MovieCardProps {
   movie: Movie;
@@ -15,47 +14,31 @@ interface MovieCardProps {
 }
 
 function MovieCard({ movie, onMovieClick }: MovieCardProps) {
-  const [isDeleteMovieModalOpen, setIsDeleteMovieModalOpen] = useState(false);
-  const [isEditMovieOpen, setIsEditMovieOpen] = useState(false);
+  const dispatch = useAppDispatch();
 
   const handleEditClick = () => {
-    setIsEditMovieOpen(true);
+    dispatch(setEditMovieOpen({ isOpen: true }));
+    dispatch(setSelectedMovie({ movie }));
   };
 
   const handleDeleteClick = () => {
-    setIsDeleteMovieModalOpen(true);
-  };
-
-  const handleCloseClick = () => {
-    console.log(3);
-  };
-
-  const handleOutsideDeleteMovieModalClick = () => {
-    setIsDeleteMovieModalOpen(false);
-  };
-
-  const handleConfirmDeleteMovieModalClick = () => {
-    setIsDeleteMovieModalOpen(false);
-  };
-
-  const handleEditMovieCloseClick = () => {
-    setIsEditMovieOpen(false);
-  };
-
-  const handleEditMovieSubmitClick = () => {
-    setIsEditMovieOpen(false);
+    dispatch(setDeleteMovieOpen({ isOpen: true }));
+    dispatch(setSelectedMovie({ movie }));
   };
 
   return (
     <div className='movie-card'>
-      <img className='movie-card-image'
-           src={movie.poster_path}
-           alt="movie"
-           onClick={onMovieClick}
-           onError={({ currentTarget }) => {
-             currentTarget.onerror = null;
-             currentTarget.src = '/images/default-poster.webp';
-           }}/>
+      <div className='movie-card-image__container'>
+        <img className='movie-card-image'
+             src={movie.poster_path}
+             alt="movie"
+             onClick={onMovieClick}
+             onError={({ currentTarget }) => {
+               currentTarget.onerror = null;
+               currentTarget.src = '/images/default-poster.webp';
+             }}/>
+      </div>
+
 
       <div className='d-flex align-center space-between'>
         <p className='movie-card-title'>{movie.title}</p>
@@ -66,19 +49,9 @@ function MovieCard({ movie, onMovieClick }: MovieCardProps) {
 
       <div className='movie-card-menu__wrapper'>
         <MovieCardMenu handleEditClick={handleEditClick}
-                       handleDeleteClick={handleDeleteClick}
-                       handleCloseClick={handleCloseClick}/>
+                       handleDeleteClick={handleDeleteClick}/>
 
       </div>
-
-      <DeleteMovie isOpen={isDeleteMovieModalOpen}
-                   outsideClick={handleOutsideDeleteMovieModalClick}
-                   confirmClick={handleConfirmDeleteMovieModalClick}/>
-
-      <EditMovie movie={movie}
-                 isOpen={isEditMovieOpen}
-                 closeClick={handleEditMovieCloseClick}
-                 submitClick={handleEditMovieSubmitClick}/>
     </div>
   );
 }

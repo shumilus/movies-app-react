@@ -8,9 +8,24 @@ import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 import MoviesList from './MoviesList';
 import { Movie } from '../shared/models/Movie.interface';
 import { useAppDispatch, useAppSelector } from '../hooks/hook';
-import { fetchMovie, fetchMovies } from '../store/moviesSlice';
+import {
+  fetchMovie,
+  fetchMovies,
+  requestAddMovie,
+  requestDeleteMovie,
+  requestEditMovie,
+  setAddMovieOpen,
+  setDeleteMovieOpen,
+  setEditMovieOpen,
+  setIsMovieSelected,
+  setSelectedMovie,
+} from '../store/moviesSlice';
 import { setSorting } from '../store/sortingSlice';
 import { setFilter } from '../store/filterSlice';
+import AddMovie from './AddMovie';
+import * as React from 'react';
+import EditMovie from './EditMovie';
+import DeleteMovie from './DeleteMovie';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { setSearch } from '../store/searchSlice';
 import { convertToQueryParams } from '../shared/utils/movie.utils';
@@ -49,6 +64,11 @@ export default function Home() {
   const isLoading: boolean = useAppSelector(state => state.movies.isLoading);
   const movies: Movie[] = useAppSelector(state => state.movies.list);
   const totalAmount: number = useAppSelector(state => state.movies.totalAmount);
+  const isAddMovieOpen: boolean = useAppSelector(state => state.movies.isAddMovieOpen);
+  const isEditMovieOpen: boolean = useAppSelector(state => state.movies.isEditMovieOpen);
+  const isDeleteMovieOpen: boolean = useAppSelector(state => state.movies.isDeleteMovieOpen);
+  const selectedMovie: Movie | undefined = useAppSelector(state => state.movies.selectedMovie);
+  const moviesListWasChanged: { flag: boolean } = useAppSelector(state => state.movies.moviesListWasChanged);
 
   const handleSortingChange = (key: string) => {
     navigate(setNavigateValue(queryParams, 'sortBy', key));
@@ -62,6 +82,35 @@ export default function Home() {
 
   const handleMovieClick = (id: number) => {
     navigate(setNavigateValue(queryParams, 'movie', String(id)));
+  };
+
+  const handleAddMovieCloseClick = () => {
+    dispatch(setAddMovieOpen({ isOpen: false }));
+  };
+
+  const handleAddMovieSubmitClick = (movie: Movie) => {
+    dispatch(requestAddMovie({ movie }));
+    handleAddMovieCloseClick();
+  };
+
+  const handleEditMovieCloseClick = () => {
+    dispatch(setEditMovieOpen({ isOpen: false }));
+    dispatch(setSelectedMovie({ movie: undefined }));
+  };
+
+  const handleEditMovieSubmitClick = (movie: Movie) => {
+    dispatch(requestEditMovie({ movie }));
+    handleEditMovieCloseClick();
+  };
+
+  const handleOutsideDeleteMovieModalClick = () => {
+    dispatch(setDeleteMovieOpen({ isOpen: false }));
+    dispatch(setSelectedMovie({ movie: undefined }));
+  };
+
+  const handleConfirmDeleteMovieModalClick = () => {
+    dispatch(requestDeleteMovie({ id: selectedMovie?.id }));
+    handleOutsideDeleteMovieModalClick();
   };
 
   useEffect(() => {
@@ -78,7 +127,7 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(fetchMovies({ sort, filter, search }));
-  }, [dispatch, sort, filter, search]);
+  }, [dispatch, sort, filter, search, moviesListWasChanged]);
 
   return (
     <>
@@ -99,6 +148,19 @@ export default function Home() {
             : <MoviesList movies={movies} onMovieClick={handleMovieClick}/>
         }
       </ErrorBoundary>
+
+      <AddMovie isOpen={isAddMovieOpen}
+                closeClick={handleAddMovieCloseClick}
+                submitClick={handleAddMovieSubmitClick}></AddMovie>
+
+      <EditMovie movie={selectedMovie}
+                 isOpen={isEditMovieOpen}
+                 closeClick={handleEditMovieCloseClick}
+                 submitClick={handleEditMovieSubmitClick}/>
+
+      <DeleteMovie isOpen={isDeleteMovieOpen}
+                   onOutsideClick={handleOutsideDeleteMovieModalClick}
+                   onConfirmClick={handleConfirmDeleteMovieModalClick}/>
     </>
   );
 }
