@@ -1,26 +1,18 @@
 import React from 'react';
 
 import './App.scss';
-
-import Header from './components/Header/Header';
-import Footer from './components/Footer';
-import Logo from './components/Logo';
 import Main from './components/Main';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import NotFound from './components/NotFound';
 
 function App() {
   return (
-    <div className="App">
-      <header>
-        <Header/>
-      </header>
-      <main>
-        <Main/>
-      </main>
-      <footer>
-        <Footer>
-          <Logo/>
-        </Footer>
-      </footer>
+    <div className='App'>
+      <Routes>
+        <Route path='/' element={<Navigate to='/search'/>} />
+        <Route path='/search' element={<Main/>} />
+        <Route path='*' element={<NotFound/>} />
+      </Routes>
     </div>
   );
 }

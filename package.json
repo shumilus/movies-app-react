@@ -28,6 +28,7 @@
     "react-dom": "^18.2.0",
     "react-jss": "^10.9.2",
     "react-redux": "^8.0.5",
+    "react-router-dom": "^6.4.4",
     "react-scripts": "5.0.1",
     "request": "^2.88.2",
     "sass": "^1.55.0",

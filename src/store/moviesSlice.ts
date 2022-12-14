@@ -5,26 +5,28 @@ import { setMoviesRequestParams } from '../shared/utils/movie.utils';
 export interface MovieRequestParams {
   sort: string;
   filter: string;
+  search: string;
 }
 
 interface ResponseData {
-  data: Movie[],
-  limit: number,
-  offset: number,
-  totalAmount: number,
+  data: Movie[];
+  limit: number;
+  offset: number;
+  totalAmount: number;
 }
 
 type MoviesState = {
-  list: Movie[],
-  totalAmount: number,
-  isLoading: boolean,
-  error: string,
-  selectedMovie: Movie | undefined,
-  isSelectedMovieOpen: boolean,
-  isAddMovieOpen: boolean,
-  isEditMovieOpen: boolean,
-  isDeleteMovieOpen: boolean,
-  moviesListWasChanged: { flag: boolean },
+  list: Movie[];
+  totalAmount: number;
+  isLoading: boolean;
+  error: string;
+  selectedMovie: Movie | undefined;
+  isSelectedMovieOpen: boolean;
+  isAddMovieOpen: boolean;
+  isEditMovieOpen: boolean;
+  isDeleteMovieOpen: boolean;
+  openedMovie: Movie | undefined;
+  moviesListWasChanged: { flag: boolean };
 };
 
 
@@ -127,6 +129,26 @@ export const requestDeleteMovie = createAsyncThunk(
   },
 );
 
+export const fetchMovie = createAsyncThunk(
+  'movies/fetchMovie',
+  async function (params: { id: number }, { rejectWithValue }) {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/movies/${params.id}`,
+        { method: 'GET' },
+      );
+
+      if (!response.ok) {
+        throw new Error('Server Error');
+      }
+
+      return await response.json();
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 const initialState: MoviesState = {
   list: [] as Movie[],
   totalAmount: 0,
@@ -138,14 +160,15 @@ const initialState: MoviesState = {
   isEditMovieOpen: false,
   isDeleteMovieOpen: false,
   moviesListWasChanged: { flag: false },
+  openedMovie: undefined,
 };
 
 const moviesSlice = createSlice({
   name: 'movies',
   initialState,
   reducers: {
-    setSelectedMovie(state, action: PayloadAction<{ movie: Movie | undefined }>) {
-      state.selectedMovie = action.payload.movie;
+    setSelectedMovie(state, action: PayloadAction<Movie | undefined>) {
+      state.selectedMovie = action.payload;
     },
     setIsMovieSelected(state, action: PayloadAction<{ isSelected: boolean }>) {
       state.isSelectedMovieOpen = action.payload.isSelected;
@@ -158,6 +181,9 @@ const moviesSlice = createSlice({
     },
     setDeleteMovieOpen(state, action: PayloadAction<{ isOpen: boolean }>) {
       state.isDeleteMovieOpen = action.payload.isOpen;
+    },
+    setOpenedMovie(state, action: PayloadAction<Movie | undefined>) {
+      state.selectedMovie = action.payload;
     },
   },
   extraReducers: {
@@ -174,8 +200,21 @@ const moviesSlice = createSlice({
       state.list = [];
       state.isLoading = false;
       state.error = action.payload;
-      state.isSelectedMovieOpen = false;
       state.selectedMovie = undefined;
+    },
+    [fetchMovie.pending as any]: (state: MoviesState) => {
+      state.isLoading = true;
+      state.error = '';
+    },
+    [fetchMovie.fulfilled as any]: (state: MoviesState, action: PayloadAction<Movie>) => {
+      state.isLoading = false;
+      state.openedMovie = action.payload;
+    },
+    [fetchMovie.rejected as any]: (state: MoviesState, action: PayloadAction<any>) => {
+      state.list = [];
+      state.isLoading = false;
+      state.error = action.payload;
+      state.openedMovie = undefined;
     },
 
     [requestAddMovie.pending as any]: (state: MoviesState) => {
@@ -222,10 +261,10 @@ const moviesSlice = createSlice({
 
 export const {
   setSelectedMovie,
-  setIsMovieSelected,
   setAddMovieOpen,
   setEditMovieOpen,
   setDeleteMovieOpen,
+  setOpenedMovie,
 } = moviesSlice.actions;
 
 export default moviesSlice.reducer;

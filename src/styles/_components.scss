@@ -21,6 +21,12 @@
   &:active {
     background: $secondaryColor;
   }
+
+  &:disabled {
+    pointer-events: none;
+    background: $footerBackgroundColor;
+    color: $mainBackgroundColor;
+  }
 }
 
 .secondary-button {

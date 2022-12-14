@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
@@ -35,21 +35,38 @@ const useStyles = createUseStyles({
   },
 });
 
-function Search() {
+interface SearchProps {
+  search: string;
+  onSearchClick: (value: string) => void;
+}
+
+
+export default function Search({ search, onSearchClick }: SearchProps) {
+  const [value, setValue] = useState<string>(search);
   const classes = useStyles();
+
+  const onSearchChanged = (event: any) => {
+    setValue(event.target.value);
+  };
+
+  useEffect(() => {
+    setValue(search);
+  }, [search]);
 
   return (
     <div className='d-flex'>
-      <div className={ classes.inputContainer }>
-        <div className={ classes.inputBackground }></div>
+      <div className={classes.inputContainer}>
+        <div className={classes.inputBackground}></div>
         <input type='text'
-               className={ `${ classes.input } light-color` }
-               placeholder='What do you want to watch?'/>
+               value={value || ''}
+               className={`${classes.input} light-color`}
+               placeholder='What do you want to watch?'
+               onChange={onSearchChanged}/>
       </div>
 
-      <button className={ `${ classes.button } primary-button` }>Search</button>
+      <button
+        className={`${classes.button} primary-button`}
+        onClick={() => onSearchClick(value)}>Search</button>
     </div>
   );
 }
-
-export default Search;
