@@ -120,7 +120,9 @@ export default function Home() {
     dispatch(setSearch(searchParams || ''));
     dispatch(setFilter(filterParams || 'All'));
     dispatch(setSorting(sortParams || 'release_date'));
-    dispatch(fetchMovie({ id: Number(movieParams) || 0 }));
+    if (movieParams) {
+      dispatch(fetchMovie({ id: Number(movieParams) || 0 }));
+    }
   }, [dispatch, queryParams]);
 
   useEffect(() => {

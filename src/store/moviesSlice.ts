@@ -183,7 +183,7 @@ const moviesSlice = createSlice({
       state.isDeleteMovieOpen = action.payload.isOpen;
     },
     setOpenedMovie(state, action: PayloadAction<Movie | undefined>) {
-      state.selectedMovie = action.payload;
+      state.openedMovie = action.payload;
     },
   },
   extraReducers: {
