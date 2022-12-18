@@ -9,10 +9,14 @@ import MoviesList from './MoviesList';
 import { Movie } from '../shared/models/Movie.interface';
 import { useAppDispatch, useAppSelector } from '../hooks/hook';
 import {
-  fetchMovies, requestAddMovie, requestDeleteMovie, requestEditMovie,
-  setAddMovieOpen, setDeleteMovieOpen,
+  fetchMovie,
+  fetchMovies,
+  requestAddMovie,
+  requestDeleteMovie,
+  requestEditMovie,
+  setAddMovieOpen,
+  setDeleteMovieOpen,
   setEditMovieOpen,
-  setIsMovieSelected,
   setSelectedMovie,
 } from '../store/moviesSlice';
 import { setSorting } from '../store/sortingSlice';
@@ -21,6 +25,9 @@ import AddMovie from './AddMovie';
 import * as React from 'react';
 import EditMovie from './EditMovie';
 import DeleteMovie from './DeleteMovie';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { setSearch } from '../store/searchSlice';
+import { convertToQueryParams } from '../shared/utils/movie.utils';
 
 const useStyles = createUseStyles({
   filtersContainer: {
@@ -37,13 +44,22 @@ const useStyles = createUseStyles({
   },
 });
 
+function setNavigateValue(queryParams: URLSearchParams, paramKey: string, paramValue: string): any {
+  return {
+    pathname: '/search',
+    search: convertToQueryParams(queryParams, paramKey, paramValue),
+  };
+}
+
 export default function Home() {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+  const [queryParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const sort: string = useAppSelector(state => state.sorting.key);
   const filter: string = useAppSelector(state => state.filter.key);
-  const isLoading: boolean = useAppSelector(state => state.movies.isLoading);
+  const search: string = useAppSelector(state => state.search.value);
   const movies: Movie[] = useAppSelector(state => state.movies.list);
   const totalAmount: number = useAppSelector(state => state.movies.totalAmount);
   const isAddMovieOpen: boolean = useAppSelector(state => state.movies.isAddMovieOpen);
@@ -53,16 +69,17 @@ export default function Home() {
   const moviesListWasChanged: { flag: boolean } = useAppSelector(state => state.movies.moviesListWasChanged);
 
   const handleSortingChange = (key: string) => {
-    dispatch(setSorting(key));
+    navigate(setNavigateValue(queryParams, 'sortBy', key));
   };
 
   const handleFilterChange = (key: string) => {
-    dispatch(setFilter(key));
+    const filterKey = (key && key !== 'All') ? key : '';
+
+    navigate(setNavigateValue(queryParams, 'genre', filterKey));
   };
 
-  const handleMovieClick = (movie: Movie) => {
-    dispatch(setSelectedMovie({ movie }));
-    dispatch(setIsMovieSelected({ isSelected: true }));
+  const handleMovieClick = (id: number) => {
+    navigate(setNavigateValue(queryParams, 'movie', String(id)));
   };
 
   const handleAddMovieCloseClick = () => {
@@ -76,7 +93,7 @@ export default function Home() {
 
   const handleEditMovieCloseClick = () => {
     dispatch(setEditMovieOpen({ isOpen: false }));
-    dispatch(setSelectedMovie({ movie: undefined }));
+    dispatch(setSelectedMovie(undefined));
   };
 
   const handleEditMovieSubmitClick = (movie: Movie) => {
@@ -86,7 +103,7 @@ export default function Home() {
 
   const handleOutsideDeleteMovieModalClick = () => {
     dispatch(setDeleteMovieOpen({ isOpen: false }));
-    dispatch(setSelectedMovie({ movie: undefined }));
+    dispatch(setSelectedMovie(undefined));
   };
 
   const handleConfirmDeleteMovieModalClick = () => {
@@ -95,8 +112,20 @@ export default function Home() {
   };
 
   useEffect(() => {
-    dispatch(fetchMovies({ sort, filter }));
-  }, [dispatch, sort, filter, moviesListWasChanged]);
+    const searchParams = queryParams.get('title');
+    const filterParams = queryParams.get('genre');
+    const sortParams = queryParams.get('sortBy');
+    const movieParams = queryParams.get('movie');
+
+    dispatch(setSearch(searchParams || ''));
+    dispatch(setFilter(filterParams || 'All'));
+    dispatch(setSorting(sortParams || 'release_date'));
+    dispatch(fetchMovie({ id: Number(movieParams) || 0 }));
+  }, [dispatch, queryParams]);
+
+  useEffect(() => {
+    dispatch(fetchMovies({ sort, filter, search }));
+  }, [dispatch, sort, filter, search, moviesListWasChanged]);
 
   return (
     <>
@@ -111,9 +140,7 @@ export default function Home() {
         <MoviesResultsLabel result={totalAmount}/>
       </div>
       <ErrorBoundary componentName="MoviesList">
-        {isLoading
-          ? <div>Loading...</div>
-          : <MoviesList movies={movies} onMovieClick={handleMovieClick}/>}
+        <MoviesList movies={movies} onMovieClick={handleMovieClick}/>
       </ErrorBoundary>
 
       <AddMovie isOpen={isAddMovieOpen}

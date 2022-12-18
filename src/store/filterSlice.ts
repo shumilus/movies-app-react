@@ -5,7 +5,7 @@ type FilterState = {
 };
 
 const initialState: FilterState = {
-  key: 'All',
+  key: '',
 };
 
 const filterSlice = createSlice({

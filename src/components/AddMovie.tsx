@@ -11,13 +11,11 @@ export interface AddMovieProps {
 
 export default function AddMovie(props: AddMovieProps) {
   return (
-    <div>
-      <Dialog open={props.isOpen} onClose={props.closeClick}>
-        <MovieForm title='add movie'
-                   isOpen={props.isOpen}
-                   closeClick={props.closeClick}
-                   submitClick={(movie) => props.submitClick(movie)}/>
-      </Dialog>
-    </div>
+    <Dialog open={props.isOpen} onClose={props.closeClick}>
+      <MovieForm title='add movie'
+                 isOpen={props.isOpen}
+                 closeClick={props.closeClick}
+                 submitClick={(movie) => props.submitClick(movie)}/>
+    </Dialog>
   );
 }

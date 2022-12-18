@@ -5,7 +5,7 @@ type SortingState = {
 };
 
 const initialState: SortingState = {
-  key: 'release_date',
+  key: '',
 };
 
 const sortingSlice = createSlice({

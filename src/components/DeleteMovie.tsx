@@ -44,9 +44,9 @@ export default function DeleteMovie({  isOpen, onOutsideClick, onConfirmClick }:
       >
         <button className="close-button clear-button" onClick={onOutsideClick}></button>
 
-        <div className={classes.content}>
-          <h2 className={classes.title}>delete movie</h2>
-          <p className={classes.subTitle}>Are you sure you want to delete this movie?</p>
+      <div className={classes.content}>
+        <h2 className={classes.title}>delete movie</h2>
+        <p className={classes.subTitle}>Are you sure you want to delete this movie?</p>
 
           <DialogActions>
             <Button classes='primary-button' title='confirm' handleClick={onConfirmClick}></Button>

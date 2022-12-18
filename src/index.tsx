@@ -6,13 +6,16 @@ import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './store';
+import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 root.render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>,
 );
 
