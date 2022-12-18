@@ -4,7 +4,7 @@ import './Header.scss';
 import Logo from '../Logo';
 import MainTitle from '../MainTitle';
 import Search from '../Search';
-import AddMovieButton from '../AddMovieButton';
+import AddMovieButton from '../AddMovieButton/AddMovieButton';
 import MovieDetails from '../MovieDetails/MovieDetails';
 import { useAppDispatch, useAppSelector } from '../../hooks/hook';
 import { Movie } from '../../shared/models/Movie.interface';
