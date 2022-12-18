@@ -4,7 +4,7 @@ import MovieDetails from '../MovieDetails/MovieDetails';
 import './Header.scss';
 import Logo from '../Logo';
 import MainTitle from '../MainTitle';
-import Search from '../Search';
+import Search from '../Search/Search';
 import AddMovieButton from '../AddMovieButton/AddMovieButton';
 import { useAppDispatch, useAppSelector } from '../../hooks/hook';
 import { useNavigate, useSearchParams } from 'react-router-dom';

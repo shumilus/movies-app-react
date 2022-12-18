@@ -149,7 +149,7 @@ export const fetchMovie = createAsyncThunk(
   },
 );
 
-const initialState: MoviesState = {
+export const initialState: MoviesState = {
   list: [] as Movie[],
   totalAmount: 0,
   isLoading: false,

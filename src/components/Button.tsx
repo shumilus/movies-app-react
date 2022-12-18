@@ -4,11 +4,12 @@ interface ButtonProps {
   title: string;
   classes: string;
   handleClick: () => void;
+  label?: string;
 }
 
-export default function Button({ title, classes, handleClick }: ButtonProps) {
+export default function Button({ title, classes, handleClick, label }: ButtonProps) {
   return (
-    <button type='button' className={classes} onClick={handleClick}>{title}</button>
+    <button aria-label={label ? label : ''} type='button' className={classes} onClick={handleClick}>{title}</button>
   );
 }
 

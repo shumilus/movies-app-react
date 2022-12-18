@@ -24,7 +24,7 @@ import { setFilter } from '../store/filterSlice';
 import AddMovie from './AddMovie';
 import * as React from 'react';
 import EditMovie from './EditMovie';
-import DeleteMovie from './DeleteMovie';
+import DeleteMovie from './DeleteMovie/DeleteMovie';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { setSearch } from '../store/searchSlice';
 import { convertToQueryParams } from '../shared/utils/movie.utils';

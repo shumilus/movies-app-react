@@ -8,7 +8,7 @@ describe('AddMovieButton', () => {
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it('should trigger handleClickAdd on button click', () => {
+  it('should trigger onSearchClick on button click', () => {
     const handleClick = jest.fn();
 
     render(<AddMovieButton title='add button' handleClickAdd={handleClick} />);
