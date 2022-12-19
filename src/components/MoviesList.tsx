@@ -9,7 +9,7 @@ interface MoviesListProps {
 
 const MoviesList: React.FC<MoviesListProps> = ({ movies, onMovieClick }: MoviesListProps) => {
   return (
-    <div className='d-flex space-between flex-wrap'>
+    <div className='movies-list d-flex space-between flex-wrap'>
       {
         movies.map((movie: Movie) => (
           <MovieCard movie={movie} key={movie.id} onMovieClick={() => onMovieClick(movie.id)}/>

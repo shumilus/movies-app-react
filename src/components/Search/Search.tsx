@@ -59,7 +59,7 @@ export default function Search({ search, onSearchClick }: SearchProps) {
         <div className={classes.inputBackground}></div>
         <input type='text'
                value={value || ''}
-               className={`${classes.input} light-color`}
+               className={`${classes.input} light-color search-input`}
                placeholder='What do you want to watch?'
                onChange={onSearchChanged}/>
       </div>
