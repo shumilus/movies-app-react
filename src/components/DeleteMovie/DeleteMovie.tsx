@@ -2,7 +2,7 @@ import * as React from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import { createUseStyles } from 'react-jss';
-import Button from './Button';
+import Button from '../Button';
 
 interface MovieCardMenuProps {
   isOpen: boolean;
@@ -39,17 +39,17 @@ export default function DeleteMovie({  isOpen, onOutsideClick, onConfirmClick }:
       <Dialog
         open={isOpen}
         onClose={onOutsideClick}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
       >
-        <button className="close-button clear-button" onClick={onOutsideClick}></button>
+        <button aria-label='close-btn' className='close-button clear-button' onClick={onOutsideClick}></button>
 
       <div className={classes.content}>
         <h2 className={classes.title}>delete movie</h2>
         <p className={classes.subTitle}>Are you sure you want to delete this movie?</p>
 
           <DialogActions>
-            <Button classes='primary-button' title='confirm' handleClick={onConfirmClick}></Button>
+            <Button label={'confirm-btn'} classes='primary-button' title='confirm' handleClick={onConfirmClick}></Button>
           </DialogActions>
         </div>
       </Dialog>

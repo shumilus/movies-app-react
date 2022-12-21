@@ -41,7 +41,7 @@ function MovieCard({ movie, onMovieClick }: MovieCardProps) {
 
 
       <div className='d-flex align-center space-between'>
-        <p className='movie-card-title'>{movie.title}</p>
+        <p className='movie-card-title' onClick={onMovieClick}>{movie.title}</p>
         <p className='movie-card-year'>{movie.release_date.slice(0, 4)}</p>
       </div>
 

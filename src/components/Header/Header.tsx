@@ -4,13 +4,13 @@ import MovieDetails from '../MovieDetails/MovieDetails';
 import './Header.scss';
 import Logo from '../Logo';
 import MainTitle from '../MainTitle';
-import Search from '../Search';
-import AddMovieButton from '../AddMovieButton';
+import Search from '../Search/Search';
+import AddMovieButton from '../AddMovieButton/AddMovieButton';
 import { useAppDispatch, useAppSelector } from '../../hooks/hook';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { convertToQueryParams } from '../../shared/utils/movie.utils';
 import { Movie } from '../../shared/models/Movie.interface';
-import { setAddMovieOpen } from '../../store/moviesSlice';
+import { setAddMovieOpen, setOpenedMovie } from '../../store/moviesSlice';
 
 function setNavigateValue(queryParams: URLSearchParams, paramKey: string, paramValue: string): any {
   return {
@@ -32,6 +32,7 @@ export default function Header() {
 
   const handleReturnToSearchClick = () => {
     navigate(setNavigateValue(queryParams, 'movie', ''));
+    dispatch(setOpenedMovie(undefined));
   };
 
   const handleSearchClick = (value: string) => {

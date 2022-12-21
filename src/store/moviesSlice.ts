@@ -149,7 +149,7 @@ export const fetchMovie = createAsyncThunk(
   },
 );
 
-const initialState: MoviesState = {
+export const initialState: MoviesState = {
   list: [] as Movie[],
   totalAmount: 0,
   isLoading: false,
@@ -183,7 +183,7 @@ const moviesSlice = createSlice({
       state.isDeleteMovieOpen = action.payload.isOpen;
     },
     setOpenedMovie(state, action: PayloadAction<Movie | undefined>) {
-      state.selectedMovie = action.payload;
+      state.openedMovie = action.payload;
     },
   },
   extraReducers: {

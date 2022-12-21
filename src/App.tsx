@@ -3,7 +3,7 @@ import React from 'react';
 import './App.scss';
 import Main from './components/Main';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import NotFound from './components/NotFound';
+import NotFound from './components/NotFound/NotFound';
 
 function App() {
   return (
