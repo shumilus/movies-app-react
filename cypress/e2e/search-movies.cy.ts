@@ -1,6 +1,4 @@
 // @ts-ignore
-import { movies } from '../../src/mocks/movies';
-
 describe('Search movies', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');

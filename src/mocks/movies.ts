@@ -2,8 +2,8 @@ import { Movie } from '../shared/models/Movie.interface';
 
 export const movies: Movie[] = [
   {
-    id: 337167,
-    title: 'Fifty Shades Freed',
+    id: 447365,
+    title: 'Guardians of the Galaxy Vol. 3',
     tagline: "Don't miss the climax",
     vote_average: 6.1,
     vote_count: 1195,
